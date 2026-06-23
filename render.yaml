@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: autoshop-api
+    runtime: node
+    autoDeploy: true
+    healthCheckPath: /api/healthz
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm -w run typecheck:libs && pnpm --filter @workspace/api-server run typecheck && pnpm --filter @workspace/api-server run build
+    startCommand: pnpm --filter @workspace/api-server run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22

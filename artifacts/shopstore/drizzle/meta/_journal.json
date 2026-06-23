@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1779617217058,
+      "tag": "0000_grey_mach_iv",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1780620278743,
+      "tag": "0001_site_theme_wishlist_unique",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780622264836,
+      "tag": "0002_seed_store_catalog",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1780624831259,
+      "tag": "0003_enrich_store_catalog",
+      "breakpoints": true
+    }
+  ]
+}

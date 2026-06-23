@@ -1,0 +1,2 @@
+ALTER TABLE "site_settings" ADD COLUMN "default_theme" text DEFAULT 'light' NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX "wishlist_user_product_unique" ON "wishlist" USING btree ("user_id","product_id");
