@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { categories } from "@/lib/db/schema";
+import { categories, products } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { slugify } from "@/lib/utils";
 
@@ -12,6 +12,11 @@ export async function PATCH(
     const { id } = await params;
     const body = await req.json();
     
+    const categoryId = parseInt(id, 10);
+    if (Number.isNaN(categoryId)) {
+      return NextResponse.json({ error: "Invalid category id" }, { status: 400 });
+    }
+
     const updateData: any = {
       name: body.name,
       description: body.description || null,
@@ -22,14 +27,18 @@ export async function PATCH(
 
     // Update slug if name changed
     if (body.name) {
-      updateData.slug = slugify(body.name) + "-" + id;
+      updateData.slug = slugify(body.name) + "-" + categoryId;
     }
 
     const [updated] = await db
       .update(categories)
       .set(updateData)
-      .where(eq(categories.id, parseInt(id)))
+      .where(eq(categories.id, categoryId))
       .returning();
+
+    if (!updated) {
+      return NextResponse.json({ error: "Category not found" }, { status: 404 });
+    }
 
     return NextResponse.json(updated);
   } catch (error) {
@@ -44,7 +53,15 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    await db.delete(categories).where(eq(categories.id, parseInt(id)));
+    const categoryId = parseInt(id, 10);
+    if (Number.isNaN(categoryId)) {
+      return NextResponse.json({ error: "Invalid category id" }, { status: 400 });
+    }
+
+    await db.transaction(async (tx) => {
+      await tx.update(products).set({ categoryId: null, updatedAt: new Date() }).where(eq(products.categoryId, categoryId));
+      await tx.delete(categories).where(eq(categories.id, categoryId));
+    });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Failed to delete category:", error);
