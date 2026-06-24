@@ -4,17 +4,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, Package, ShoppingBag, Users, Settings,
-  LogOut, ChevronRight, Store, BarChart3, Menu, X
+  LogOut, Store, BarChart3, Menu
 } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useSiteStore } from "@/store/site";
 import { toast } from "sonner";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: Store },
   { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
@@ -24,7 +23,7 @@ const navItems = [
 ];
 
 export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname() ?? "/admin";
+  const pathname = usePathname() ?? "/admin/dashboard";
   const router = useRouter();
   const { data: session } = useSession();
   const { settings } = useSiteStore();
@@ -52,7 +51,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
 
       <nav className="flex-1 p-3 overflow-y-auto">
         {navItems.map((item) => {
-          const active = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
+          const active = pathname === item.href || (item.href === "/admin/dashboard" && pathname === "/admin") || (item.href !== "/admin/dashboard" && pathname.startsWith(item.href));
           return (
             <Link
               key={item.href}
@@ -73,9 +72,6 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
       </nav>
 
       <div className="p-3 border-t border-gray-100">
-        <div className="mb-2 px-3">
-          <ThemeToggle />
-        </div>
         <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 mb-1 transition-colors whitespace-nowrap">
           <Store size={17} className="shrink-0" /> <span className="truncate">View Store</span>
         </Link>
