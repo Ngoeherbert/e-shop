@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Heart, ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
@@ -76,12 +77,14 @@ export function ProductCard({
     <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
       <Link href={`/products/${slug}`} className="group block">
         <div className="relative bg-gray-50 rounded-2xl overflow-hidden mb-3">
-          <div className="aspect-square">
+          <div className="relative aspect-square">
             {images[0] ? (
-              <img
+              <Image
                 src={images[0]}
-                alt={name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt={`${name} automotive spare part`}
+                fill
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
