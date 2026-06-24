@@ -78,6 +78,30 @@
     cursor: pointer;
   }
 
+
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: keep-all;
+  }
+
+  button svg,
+  [role="button"] svg,
+  a svg {
+    flex-shrink: 0;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
+
   button:disabled,
   [aria-disabled="true"],
   input:disabled,

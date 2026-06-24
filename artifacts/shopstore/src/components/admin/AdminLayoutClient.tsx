@@ -44,7 +44,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
             {settings.siteName.slice(0, 2).toLowerCase()}
           </div>
           <div>
-            <p className="font-bold text-gray-900 text-sm leading-tight">{settings.siteName}</p>
+            <p className="font-bold text-gray-900 text-sm leading-tight truncate max-w-36">{settings.siteName}</p>
             <p className="text-xs text-gray-400">Admin Panel</p>
           </div>
         </Link>
@@ -58,15 +58,15 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
               key={item.href}
               href={item.href}
               onClick={() => setSidebarOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium mb-1 transition-all ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium mb-1 transition-all whitespace-nowrap ${
                 active
                   ? "text-white shadow-sm"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
               }`}
               style={active ? { backgroundColor: settings.primaryColor } : {}}
             >
-              <item.icon size={17} />
-              {item.label}
+              <item.icon size={17} className="shrink-0" />
+              <span className="truncate">{item.label}</span>
             </Link>
           );
         })}
@@ -76,11 +76,11 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
         <div className="mb-2 px-3">
           <ThemeToggle />
         </div>
-        <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 mb-1 transition-colors">
-          <Store size={17} /> View Store
+        <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 mb-1 transition-colors whitespace-nowrap">
+          <Store size={17} className="shrink-0" /> <span className="truncate">View Store</span>
         </Link>
-        <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition-colors">
-          <LogOut size={17} /> Sign Out
+        <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition-colors whitespace-nowrap">
+          <LogOut size={17} className="shrink-0" /> <span className="truncate">Sign Out</span>
         </button>
         {session && (
           <div className="mt-3 px-3 py-2.5 bg-gray-50 rounded-xl">
@@ -113,9 +113,9 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
           <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-gray-100">
             <Menu size={20} />
           </button>
-          <span className="font-semibold text-gray-900 flex-1">{settings.siteName} Admin</span>
+          <span className="font-semibold text-gray-900 flex-1 min-w-0 truncate">{settings.siteName} Admin</span>
         </div>
-        <main className="p-6 max-w-7xl mx-auto">
+        <main className="p-3 sm:p-4 lg:p-6 max-w-7xl mx-auto overflow-x-hidden">
           <motion.div key={pathname} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
             {children}
           </motion.div>
