@@ -168,66 +168,13 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
                   key={value}
                   type="button"
                   onClick={() => setTheme(value as "light" | "dark")}
-                  className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors [&_svg]:shrink-0 ${theme === value ? "border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-950 dark:shadow-sm" : "border-gray-200 bg-white text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-950 dark:text-white dark:hover:bg-gray-800"}`}
+                   className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors [&_svg]:shrink-0 ${theme === value ? "border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-950 dark:shadow-sm" : "border-gray-200 bg-white text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-950 dark:text-white dark:hover:bg-gray-800"}`}
                 >
                   <Icon size={16} /> {label}
                 </button>
               ))}
             </div>
             <p className="mt-2 text-xs text-gray-500">This changes the theme you are viewing right now.</p>
-          </Field>
-          <Field label="Default Theme for Visitors">
-            <div className="grid grid-cols-2 gap-3">
-              {[{ value: "light", label: "Light", icon: Sun }, { value: "dark", label: "Dark", icon: Moon }].map(({ value, label, icon: Icon }) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => setForm((f) => ({ ...f, defaultTheme: value as "light" | "dark" }))}
-                  className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors [&_svg]:shrink-0 ${form.defaultTheme === value ? "border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-950 dark:shadow-sm" : "border-gray-200 bg-white text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-950 dark:text-white dark:hover:bg-gray-800"}`}
-                >
-                  <Icon size={16} /> {label}
-                </button>
-              ))}
-            </div>
-          </Field>
-          <Field label="Primary Color">
-            <div className="flex items-center gap-3">
-              <input
-                type="color"
-                value={form.primaryColor}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, primaryColor: e.target.value }))
-                }
-                className="w-12 h-10 rounded-lg cursor-pointer border border-gray-200 p-1"
-              />
-              <input
-                type="text"
-                value={form.primaryColor}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, primaryColor: e.target.value }))
-                }
-                className="w-32 border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-mono focus:outline-none"
-              />
-            </div>
-            <div className="flex gap-2 mt-3 flex-wrap">
-              {PRESET_COLORS.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  onClick={() =>
-                    setForm((f) => ({ ...f, primaryColor: color }))
-                  }
-                  className={`w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 ${form.primaryColor === color ? "border-gray-900 scale-110" : "border-transparent"}`}
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-            </div>
-          </Field>
-          <Field label="Secondary Color">
-            <div className="flex items-center gap-3">
-              <input type="color" value={form.secondaryColor} onChange={(e) => setForm((f) => ({ ...f, secondaryColor: e.target.value }))} className="w-12 h-10 rounded-lg cursor-pointer border border-gray-200 p-1" />
-              <input type="text" value={form.secondaryColor} onChange={(e) => setForm((f) => ({ ...f, secondaryColor: e.target.value }))} className="w-32 border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-mono focus:outline-none" />
-            </div>
           </Field>
         </Section>
 
@@ -387,14 +334,14 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
-      <div className="mb-5 flex items-center gap-3 border-b border-gray-100 pb-4 dark:border-gray-800">
-        <div className="rounded-xl bg-gray-50 p-2.5 dark:bg-gray-900">
-          <Icon size={18} className="text-gray-600 dark:text-gray-200" />
+    <div className="bg-white rounded-2xl border border-gray-100 p-6">
+      <div className="flex items-center gap-3 mb-5 pb-4 border-b border-gray-100">
+        <div className="p-2.5 bg-gray-50 rounded-xl">
+          <Icon size={18} className="text-gray-600" />
         </div>
         <div>
-          <h2 className="font-semibold text-gray-900 dark:text-white">{title}</h2>
-          <p className="text-xs text-gray-500 dark:text-gray-300">{description}</p>
+          <h2 className="font-semibold text-gray-900">{title}</h2>
+          <p className="text-xs text-gray-500">{description}</p>
         </div>
       </div>
       <div className="space-y-4">{children}</div>
@@ -411,7 +358,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-200">
+      <label className="block text-sm font-medium text-gray-700 mb-1.5">
         {label}
       </label>
       {children}
