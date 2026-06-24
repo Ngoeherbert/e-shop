@@ -339,11 +339,11 @@ export function AdminCategoriesClient({ categories: serverCategories }: { catego
 
       <ConfirmModal
         open={!!deleteTarget}
-        onClose={() => setDeleteTarget(null)}
+        onCancel={() => setDeleteTarget(null)}
         onConfirm={confirmDelete}
         title="Delete Category"
         description={`Are you sure you want to delete "${deleteTarget?.name}"? This action cannot be undone.`}
-        confirmText="Delete"
+        confirmLabel="Delete"
         loading={deleting}
       />
     </div>
