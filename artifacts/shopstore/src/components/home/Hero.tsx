@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -25,10 +26,13 @@ export function Hero({ settings }: HeroProps) {
   return (
     <div className="relative overflow-hidden h-[540px] md:h-[600px] bg-gray-900">
       {heroImage ? (
-        <img
+        <Image
           src={heroImage}
-          alt="Hero"
-          className="absolute inset-0 w-full h-full object-cover opacity-70"
+          alt={`${settings?.siteName ?? "AutoParts Hub"} hero automotive parts`}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-70"
         />
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-800 to-gray-700" />

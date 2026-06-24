@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { User, Mail, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { signUp, signIn } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
 import { useSiteStore } from "@/store/site";
 import { PasswordInput } from "@/components/ui/password-input";
 
@@ -39,13 +39,32 @@ export function RegisterPageClient() {
       return;
     }
     setLoading(true);
-    const res = await signUp.email({ name, email, password });
-    setLoading(false);
-    if (res.error) {
-      toast.error(res.error.message ?? "Registration failed");
-    } else {
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error ?? "Registration failed");
+      }
+
+      const signInRes = await signIn.email({ email, password, callbackURL: "/" });
+      if (signInRes.error) {
+        toast.success("Account created! Please sign in.");
+        router.push("/login");
+        return;
+      }
+
       toast.success("Account created! Welcome!");
       router.push("/");
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +73,7 @@ export function RegisterPageClient() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 overflow-x-hidden">
       <div className="hidden lg:flex flex-col items-center justify-center bg-gray-50 p-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
           <div className="flex justify-center gap-3 mb-10">
@@ -82,7 +101,7 @@ export function RegisterPageClient() {
         </motion.div>
       </div>
 
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center px-4 py-8 sm:p-8">
         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="w-full max-w-md">
           <Link href="/" className="flex items-center gap-2 mb-10 lg:hidden">
             <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: settings.primaryColor }}>
@@ -90,7 +109,7 @@ export function RegisterPageClient() {
             </div>
             <span className="font-semibold text-lg">{settings.siteName.split(" ")[0].toLowerCase()}</span>
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Create your account</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create your account</h1>
           <p className="text-gray-500 mb-8">Start shopping in seconds — it's free</p>
 
           <div className="flex gap-3 mb-6">
@@ -144,7 +163,7 @@ export function RegisterPageClient() {
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirm password</label>
               <PasswordInput value={confirm} onChange={setConfirm} placeholder="Repeat password" required />
             </div>
-            <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-2 py-3.5 text-white font-semibold rounded-xl transition-opacity hover:opacity-90 disabled:opacity-70" style={{ backgroundColor: settings.secondaryColor ?? "#111827" }}>
+            <button type="submit" disabled={loading} className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap px-4 py-3.5 text-sm sm:text-base text-white font-semibold rounded-xl transition-opacity hover:opacity-90 disabled:opacity-70" style={{ backgroundColor: settings.secondaryColor ?? "#111827" }}>
               {loading ? <Loader2 size={18} className="animate-spin" /> : null}
               {loading ? "Creating account..." : "Create Account"}
             </button>
