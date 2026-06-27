@@ -2,6 +2,7 @@
 import { env } from "./env";
 import { CreatePaymentRequest, NowPaymentsInvoice, NowPaymentsWebhookPayload, PaymentStatus } from "../types/nowpayments";
 import crypto from "crypto";
+// ✅ Correct
 
 export class NowPaymentsClientError extends Error {
   constructor(message: string, public readonly details?: any) {
