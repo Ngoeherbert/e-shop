@@ -2,7 +2,17 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Save, Loader2, Upload, Palette, Globe, MessageSquare, Megaphone, Moon, Sun } from "lucide-react";
+import {
+  Save,
+  Loader2,
+  Upload,
+  Palette,
+  Globe,
+  MessageSquare,
+  Megaphone,
+  Moon,
+  Sun,
+} from "lucide-react";
 import { toast } from "sonner";
 import { useDropzone } from "react-dropzone";
 import { useSiteStore } from "@/store/site";
@@ -11,13 +21,24 @@ import { ToggleSwitch } from "@/components/ui/toggle-switch";
 
 interface Props {
   settings: {
-    siteName?: string | null; primaryColor?: string | null; announcementText?: string | null;
-    announcementEnabled?: boolean | null; whatsappNumber?: string | null;
-    telegramUsername?: string | null; instagramUsername?: string | null;
-    facebookPageId?: string | null; logoUrl?: string | null;
-    heroHeadline?: string | null; heroSubtitle?: string | null; heroImage?: string | null;
-    announcementCode?: string | null; announcementDiscount?: number | null;
-    siteTagline?: string | null; siteDescription?: string | null; secondaryColor?: string | null; defaultTheme?: string | null;
+    siteName?: string | null;
+    primaryColor?: string | null;
+    announcementText?: string | null;
+    announcementEnabled?: boolean | null;
+    whatsappNumber?: string | null;
+    telegramUsername?: string | null;
+    instagramUsername?: string | null;
+    facebookPageId?: string | null;
+    logoUrl?: string | null;
+    heroHeadline?: string | null;
+    heroSubtitle?: string | null;
+    heroImage?: string | null;
+    announcementCode?: string | null;
+    announcementDiscount?: number | null;
+    siteTagline?: string | null;
+    siteDescription?: string | null;
+    secondaryColor?: string | null;
+    defaultTheme?: string | null;
   } | null;
 }
 
@@ -28,11 +49,17 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
     siteName: serverSettings?.siteName ?? settings.siteName,
     primaryColor: serverSettings?.primaryColor ?? settings.primaryColor,
     secondaryColor: serverSettings?.secondaryColor ?? settings.secondaryColor,
-    defaultTheme: (serverSettings?.defaultTheme === "dark" ? "dark" : "light") as "light" | "dark",
-    announcementText: serverSettings?.announcementText ?? settings.announcementText,
-    announcementEnabled: serverSettings?.announcementEnabled ?? settings.announcementEnabled,
-    announcementCode: serverSettings?.announcementCode ?? settings.announcementCode,
-    announcementDiscount: serverSettings?.announcementDiscount ?? settings.announcementDiscount,
+    defaultTheme: (serverSettings?.defaultTheme === "dark"
+      ? "dark"
+      : "light") as "light" | "dark",
+    announcementText:
+      serverSettings?.announcementText ?? settings.announcementText,
+    announcementEnabled:
+      serverSettings?.announcementEnabled ?? settings.announcementEnabled,
+    announcementCode:
+      serverSettings?.announcementCode ?? settings.announcementCode,
+    announcementDiscount:
+      serverSettings?.announcementDiscount ?? settings.announcementDiscount,
     whatsappNumber: serverSettings?.whatsappNumber ?? settings.whatsappNumber,
     telegramUsername:
       serverSettings?.telegramUsername ?? settings.telegramUsername,
@@ -75,7 +102,13 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
       });
       if (!res.ok) throw new Error("Save failed");
     } catch {}
-    updateSettings({ ...form, primaryColor: form.primaryColor, secondaryColor: form.secondaryColor, defaultTheme: form.defaultTheme, logoUrl: form.logoUrl || null });
+    updateSettings({
+      ...form,
+      primaryColor: form.primaryColor,
+      secondaryColor: form.secondaryColor,
+      defaultTheme: form.defaultTheme,
+      logoUrl: form.logoUrl || null,
+    });
     setSaving(false);
     toast.success("Settings saved!");
   };
@@ -160,29 +193,44 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
           </Field>
         </Section>
 
-        <Section icon={Palette} title="Appearance" description="Customize colors and theme">
+        <Section
+          icon={Palette}
+          title="Appearance"
+          description="Customize colors and theme"
+        >
           <Field label="Current Theme">
             <div className="grid grid-cols-2 gap-3">
-              {[{ value: "light", label: "Light", icon: Sun }, { value: "dark", label: "Dark", icon: Moon }].map(({ value, label, icon: Icon }) => (
+              {[
+                { value: "light", label: "Light", icon: Sun },
+                { value: "dark", label: "Dark", icon: Moon },
+              ].map(({ value, label, icon: Icon }) => (
                 <button
                   key={value}
                   type="button"
                   onClick={() => setTheme(value as "light" | "dark")}
-                   className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors [&_svg]:shrink-0 ${theme === value ? "border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-950 dark:shadow-sm" : "border-gray-200 bg-white text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-950 dark:text-white dark:hover:bg-gray-800"}`}
+                  className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors [&_svg]:shrink-0 ${theme === value ? "border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-950 dark:shadow-sm" : "border-gray-200 bg-white text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-950 dark:text-white dark:hover:bg-gray-800"}`}
                 >
                   <Icon size={16} /> {label}
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-xs text-gray-500">This changes the theme you are viewing right now.</p>
+            <p className="mt-2 text-xs text-gray-500">
+              This changes the theme you are viewing right now.
+            </p>
           </Field>
         </Section>
 
-        <Section icon={Megaphone} title="Announcement Bar" description="Top promotional banner">
+        <Section
+          icon={Megaphone}
+          title="Announcement Bar"
+          description="Top promotional banner"
+        >
           <ToggleSwitch
             checked={Boolean(form.announcementEnabled)}
             label="Enable Announcement Bar"
-            onChange={(checked) => setForm((f) => ({ ...f, announcementEnabled: checked }))}
+            onChange={(checked) =>
+              setForm((f) => ({ ...f, announcementEnabled: checked }))
+            }
             showState
             className="mb-4"
           />
