@@ -29,6 +29,13 @@
       "when": 1780624831259,
       "tag": "0003_enrich_store_catalog",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1782586477891,
+      "tag": "0004_conscious_glorian",
+      "breakpoints": true
     }
   ]
 }
