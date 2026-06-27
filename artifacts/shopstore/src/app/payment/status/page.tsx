@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { PaymentStatus } from '../../../types/nowpayments';
-import { Card } from '../../../components/ui/card';
+import { PaymentStatus } from '@/types/nowpayments';
+import { Card } from '@/components/ui/card';
 
 interface PaymentStatusData {
   payment_status: PaymentStatus;

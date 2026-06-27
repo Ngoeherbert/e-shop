@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import { nowPaymentsClient } from "../../../../lib/nowpayments";
+import { nowPaymentsClient } from "@/lib/nowpayments";
 
 export async function GET() {
   try {

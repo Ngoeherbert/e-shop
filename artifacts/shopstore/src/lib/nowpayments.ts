@@ -1,6 +1,6 @@
 
-import { env } from "./env";
-import { CreatePaymentRequest, NowPaymentsInvoice, NowPaymentsWebhookPayload, PaymentStatus } from "../types/nowpayments";
+import { env } from "@/lib/env";
+import { CreatePaymentRequest, NowPaymentsInvoice, NowPaymentsWebhookPayload, PaymentStatus } from "@/types/nowpayments";
 import crypto from "crypto";
 // ✅ Correct
 

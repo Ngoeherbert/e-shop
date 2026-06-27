@@ -1,10 +1,9 @@
 
 import { NextResponse } from "next/server";
-import { nowPaymentsClient } from "../../../../lib/nowpayments";
-import { NowPaymentsWebhookPayload, PaymentStatus } from "../../../../types/nowpayments";
-// ✅ Correct
-import { db } from '../../../../lib/db'
-import { orders } from '../../../../lib/db/schema'
+import { nowPaymentsClient } from "@/lib/nowpayments";
+import { NowPaymentsWebhookPayload, PaymentStatus } from "@/types/nowpayments";
+import { db } from "@/lib/db";
+import { orders } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {

@@ -1,9 +1,9 @@
 
 import { NextResponse } from "next/server";
-import { nowPaymentsClient } from "../../../lib/nowpayments";
-import { CreatePaymentRequest } from "../../../types/nowpayments";
+import { nowPaymentsClient } from "@/lib/nowpayments";
+import { CreatePaymentRequest } from "@/types/nowpayments";
 import { z } from "zod";
-import { env } from "../../../lib/env";
+import { env } from "@/lib/env";
 
 const createPaymentSchema = z.object({
   price_amount: z.number().positive("Price amount must be a positive number"),
