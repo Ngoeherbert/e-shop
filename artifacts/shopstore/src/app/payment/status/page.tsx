@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PaymentStatus } from '@/types/nowpayments';
 import { Card } from '@/components/ui/card';
@@ -56,9 +56,9 @@ const TERMINAL_STATUSES = [
   PaymentStatus.Refunded,
 ];
 
-export default function PaymentStatusPage() {
+function PaymentStatusContent() {
   const searchParams = useSearchParams();
-  const paymentId = searchParams ? searchParams.get('payment_id') : null;
+  const paymentId = searchParams?.get('payment_id') ?? null;
 
   const [status, setStatus] = useState<PaymentStatusData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -94,7 +94,6 @@ export default function PaymentStatusPage() {
 
     fetchStatus();
 
-    // Poll every 5 seconds if not in terminal state
     if (!isTerminal) {
       const interval = setInterval(fetchStatus, 5000);
       return () => clearInterval(interval);
@@ -202,5 +201,20 @@ export default function PaymentStatusPage() {
         </div>
       </Card>
     </div>
+  );
+}
+
+export default function PaymentStatusPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Card className="w-full max-w-md p-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </Card>
+      </div>
+    }>
+      <PaymentStatusContent />
+    </Suspense>
   );
 }
