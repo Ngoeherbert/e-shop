@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) return buildMetadata({ title: "Category Not Found", path: `/categories/${slug}` });
   return buildMetadata({
     title: `${category.name} Parts`,
-    description: seoDescription(category.description, `Shop ${category.name.toLowerCase()} at AutoParts Hub, including replacement, maintenance, performance, and accessory parts selected for fitment and reliability.`),
+    description: seoDescription(category.description, `Shop ${category.name.toLowerCase()} at ShopStore, including replacement, maintenance, performance, and accessory parts selected for fitment and reliability.`),
     path: `/categories/${category.slug}`,
     image: category.bannerImage ?? category.image,
   });

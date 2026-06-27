@@ -23,13 +23,13 @@ const productSeeds = [
 ];
 
 const defaultSettings = {
-  siteName: "AutoParts Hub",
-  siteTagline: "Quality Spare Parts for Every Drive.",
-  siteDescription: "Shop reliable spare parts across sedan, SUV, truck, performance, EV, and classic car categories.",
+  siteName: "ShopStore",
+  siteTagline: "Quality Parts for Every Drive.",
+  siteDescription: "Shop reliable automotive spare parts, accessories, deals, and maintenance essentials across every major vehicle category.",
   primaryColor: "#dc2626",
   secondaryColor: "#111827",
   defaultTheme: "light",
-  heroHeadline: "Find Parts.\nDrive Better.",
+  heroHeadline: "Shop Parts.\nDrive Better.",
   heroSubtitle: "Find quality OEM-style and aftermarket spare parts for your daily driver, work truck, family SUV, or weekend project car.",
   heroImage: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1800&q=80",
 };

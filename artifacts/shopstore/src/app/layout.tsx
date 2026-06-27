@@ -7,41 +7,60 @@ import { Suspense } from "react";
 import { JsonLd, absoluteUrl, siteName, defaultDescription } from "@/lib/seo";
 
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://autoparts-hub.example.com";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  applicationName: "AutoParts Hub",
+  metadataBase: new URL(absoluteUrl("/")),
+  applicationName: siteName,
   title: {
-    default: "AutoParts Hub | Quality Automotive Spare Parts",
-    template: "%s | AutoParts Hub",
+    default: "ShopStore | Quality Automotive Parts & Accessories",
+    template: "%s | ShopStore",
   },
-  description: "Shop quality automotive spare parts for sedans, SUVs, trucks, performance builds, EVs, hybrids, and classic cars with fast support from AutoParts Hub.",
+  description: defaultDescription,
   keywords: [
-    "auto parts online",
-    "car spare parts",
-    "OEM replacement parts",
-    "aftermarket automotive parts",
-    "performance car parts",
-    "EV and hybrid parts",
+    "ShopStore",
+    "online auto parts store",
+    "automotive spare parts",
+    "car accessories",
+    "replacement car parts",
+    "performance parts",
+    "crypto checkout",
   ],
-  alternates: { canonical: "/" },
+  authors: [{ name: "ShopStore", url: absoluteUrl("/") }],
+  creator: "ShopStore",
+  publisher: "ShopStore",
+  alternates: { canonical: absoluteUrl("/") },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
-    title: "AutoParts Hub | Quality Automotive Spare Parts",
-    description: "Shop reliable spare parts across sedan, SUV, truck, performance, EV, hybrid, and classic car categories.",
-    url: "/",
-    siteName: "AutoParts Hub",
-    images: [{ url: "/opengraph.jpg", width: 1200, height: 630, alt: "AutoParts Hub automotive spare parts" }],
+    title: "ShopStore | Quality Automotive Parts & Accessories",
+    description: defaultDescription,
+    url: absoluteUrl("/"),
+    siteName,
+    images: [{ url: absoluteUrl("/opengraph.jpg"), width: 1200, height: 630, alt: "ShopStore automotive parts storefront" }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AutoParts Hub | Quality Automotive Spare Parts",
-    description: "Shop quality automotive spare parts for sedans, SUVs, trucks, performance builds, EVs, hybrids, and classic cars.",
-    images: ["/opengraph.jpg"],
+    title: "ShopStore | Quality Automotive Parts & Accessories",
+    description: defaultDescription,
+    images: [absoluteUrl("/opengraph.jpg")],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

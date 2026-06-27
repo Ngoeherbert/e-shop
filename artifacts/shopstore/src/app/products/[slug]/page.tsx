@@ -68,6 +68,10 @@ export default async function ProductDetailPage({ params }: Props) {
           image: product.images ?? [],
           sku: String(product.id),
           category: product.category?.name,
+          brand: {
+            "@type": "Brand",
+            name: "ShopStore",
+          },
           offers: {
             "@type": "Offer",
             url: absoluteUrl(`/products/${product.slug}`),

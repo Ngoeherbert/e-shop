@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -41,6 +42,7 @@ interface Props {
 export function ProductDetailClient({ product, settings, relatedProducts = [] }: Props) {
   const [imageIndex, setImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [isCreatingCryptoCheckout, setIsCreatingCryptoCheckout] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const { toggleItem, isWishlisted } = useWishlistStore();
   const { settings: storeSettings } = useSiteStore();
@@ -76,6 +78,34 @@ export function ProductDetailClient({ product, settings, relatedProducts = [] }:
     toast.success(`${product.name} added to cart!`);
   };
 
+  const handleCryptoCheckout = async () => {
+    if (!inStock) return;
+    setIsCreatingCryptoCheckout(true);
+
+    try {
+      const response = await fetch("/api/payments/nowpayments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: price * quantity,
+          orderDescription: `${product.name} x${quantity}`,
+          orderId: `product-${product.id}-${Date.now()}`,
+        }),
+      });
+      const data = await response.json().catch(() => ({})) as { checkoutUrl?: string; error?: string };
+
+      if (!response.ok || !data.checkoutUrl) {
+        throw new Error(data.error || "Unable to start crypto checkout");
+      }
+
+      window.location.href = data.checkoutUrl;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to start crypto checkout");
+    } finally {
+      setIsCreatingCryptoCheckout(false);
+    }
+  };
+
   const breadcrumbs = [
     { label: "Shop", href: "/shop" },
     ...(product.category ? [{ label: product.category.name, href: `/categories/${product.category.slug}` }] : []),
@@ -91,16 +121,23 @@ export function ProductDetailClient({ product, settings, relatedProducts = [] }:
           <div className="relative overflow-hidden rounded-3xl bg-gray-50 aspect-square mb-4">
             {images[imageIndex] ? (
               <AnimatePresence mode="wait">
-                <motion.img
+                <motion.div
                   key={imageIndex}
-                  src={images[imageIndex]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="absolute inset-0"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                />
+                >
+                  <Image
+                    src={images[imageIndex]}
+                    alt={`${product.name} product image ${imageIndex + 1}`}
+                    fill
+                    priority={imageIndex === 0}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </motion.div>
               </AnimatePresence>
             ) : (
               <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 text-gray-400">
@@ -141,7 +178,13 @@ export function ProductDetailClient({ product, settings, relatedProducts = [] }:
                   onClick={() => setImageIndex(i)}
                   className={`shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${i === imageIndex ? "border-red-500 shadow-md" : "border-transparent"}`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <Image
+                    src={img}
+                    alt={`${product.name} thumbnail ${i + 1}`}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -234,14 +277,14 @@ export function ProductDetailClient({ product, settings, relatedProducts = [] }:
           <div>
             <p className="font-semibold text-gray-900 mb-3">Payment and support:</p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <a
-                href={siteSettings.nowPaymentsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 bg-gray-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors"
+              <button
+                type="button"
+                onClick={handleCryptoCheckout}
+                disabled={!inStock || isCreatingCryptoCheckout}
+                className="flex items-center justify-center gap-2 py-3 bg-gray-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors disabled:cursor-not-allowed disabled:opacity-60"
               >
-                <Bitcoin size={16} /> Pay Crypto
-              </a>
+                <Bitcoin size={16} /> {isCreatingCryptoCheckout ? "Opening..." : "Pay Crypto"}
+              </button>
               <a
                 href={`https://wa.me/${siteSettings.whatsappNumber.replace(/\D/g, "")}?text=${orderMessage}`}
                 target="_blank"
