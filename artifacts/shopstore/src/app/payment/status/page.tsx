@@ -58,7 +58,7 @@ const TERMINAL_STATUSES = [
 
 function PaymentStatusContent() {
   const searchParams = useSearchParams();
-  const paymentId = searchParams ? searchParams.get('payment_id') : null;
+  const paymentId = searchParams?.get("payment_id");
 
   const [status, setStatus] = useState<PaymentStatusData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -67,7 +67,7 @@ function PaymentStatusContent() {
 
   useEffect(() => {
     if (!paymentId) {
-      setError('No payment ID provided');
+      setError("No payment ID provided");
       setLoading(false);
       return;
     }
@@ -76,7 +76,7 @@ function PaymentStatusContent() {
       try {
         const response = await fetch(`/api/pay/status?payment_id=${paymentId}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch payment status');
+          throw new Error("Failed to fetch payment status");
         }
         const data: PaymentStatusData = await response.json();
         setStatus(data);
@@ -85,8 +85,8 @@ function PaymentStatusContent() {
           setIsTerminal(true);
         }
       } catch (err) {
-        console.error('Failed to fetch payment status:', err);
-        setError('Failed to fetch payment status');
+        console.error("Failed to fetch payment status:", err);
+        setError("Failed to fetch payment status");
       } finally {
         setLoading(false);
       }
@@ -143,13 +143,15 @@ function PaymentStatusContent() {
           <div className="text-6xl mb-4">{statusIcon}</div>
           <h1 className={`text-2xl font-bold mb-2 ${statusTextColor}`}>
             {status.payment_status.charAt(0).toUpperCase() +
-              status.payment_status.slice(1).replace(/_/g, ' ')}
+              status.payment_status.slice(1).replace(/_/g, " ")}
           </h1>
 
           <div className="bg-white rounded-lg p-4 my-6 space-y-3">
             <div>
               <p className="text-sm text-gray-600">Order ID</p>
-              <p className="font-mono text-sm font-semibold">{status.order_id}</p>
+              <p className="font-mono text-sm font-semibold">
+                {status.order_id}
+              </p>
             </div>
             <div>
               <p className="text-sm text-gray-600">Amount</p>
