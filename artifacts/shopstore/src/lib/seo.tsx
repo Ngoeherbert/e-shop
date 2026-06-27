@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 
-export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://autoparts-hub.example.com");
-export const siteName = "AutoParts Hub";
+export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://e-shop-shopstore.vercel.app");
+export const siteName = "ShopStore";
+export const brandColor = "#dc2626";
 export const defaultDescription =
-  "Shop quality automotive spare parts for sedans, SUVs, trucks, performance builds, EVs, hybrids, and classic cars with fast support from AutoParts Hub.";
+  "ShopStore is your online destination for quality automotive spare parts, accessories, deals, and crypto-friendly checkout support.";
 
-export const automotiveKeywords = [
-  "auto parts online",
+export const storeKeywords = [
+  "ShopStore",
+  "online auto parts store",
+  "automotive spare parts",
   "car spare parts",
   "OEM replacement parts",
   "aftermarket automotive parts",
@@ -16,6 +19,7 @@ export const automotiveKeywords = [
   "performance car parts",
   "EV and hybrid parts",
   "classic car restoration parts",
+  "crypto checkout",
 ];
 
 export function absoluteUrl(path = "/") {
@@ -30,7 +34,7 @@ export function seoDescription(text?: string | null, fallback = defaultDescripti
 export function productSeoDescription(product: { name: string; description?: string | null; category?: { name: string } | null }) {
   return seoDescription(
     product.description,
-    `Buy ${product.name} from AutoParts Hub. Find reliable ${product.category?.name ?? "automotive"} parts, fitment-focused product details, and quality components for your vehicle.`,
+    `Buy ${product.name} from ShopStore. Find reliable ${product.category?.name ?? "automotive"} parts, fitment-focused product details, and quality components for your vehicle.`,
   );
 }
 
@@ -49,19 +53,22 @@ export function buildMetadata({
 }): Metadata {
   const canonical = absoluteUrl(path);
   const metaDescription = seoDescription(description);
-  const images = image ? [{ url: absoluteUrl(image), alt: title }] : [{ url: absoluteUrl("/opengraph.jpg"), alt: siteName }];
+  const imageUrl = absoluteUrl(image ?? "/opengraph.jpg");
 
   return {
     title,
     description: metaDescription,
-    keywords: automotiveKeywords,
+    keywords: storeKeywords,
+    authors: [{ name: siteName, url: absoluteUrl("/") }],
+    creator: siteName,
+    publisher: siteName,
     alternates: { canonical },
     openGraph: {
       title,
       description: metaDescription,
       url: canonical,
       siteName,
-      images,
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
       locale: "en_US",
       type,
     },
@@ -69,9 +76,19 @@ export function buildMetadata({
       card: "summary_large_image",
       title,
       description: metaDescription,
-      images: images.map((item) => item.url),
+      images: [imageUrl],
     },
-    robots: { index: true, follow: true },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
   };
 }
 

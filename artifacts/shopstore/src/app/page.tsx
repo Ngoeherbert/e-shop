@@ -15,9 +15,10 @@ import { ensureStoreSeedData } from "@/lib/db/seed";
 
 
 export const metadata: Metadata = buildMetadata({
-  title: "Home",
-  description: "Shop quality automotive spare parts, featured deals, expert guides, and WhatsApp support with crypto checkout through NOWPayments.",
+  title: "Quality Automotive Parts, Accessories & Deals",
+  description: "ShopStore helps drivers find quality automotive spare parts, featured deals, helpful buying guides, WhatsApp support, and crypto checkout through NOWPayments.",
   path: "/",
+  image: "/opengraph.jpg",
 });
 const homeCategorySlugs = ["sedan-parts", "suv-parts", "truck-parts", "performance-parts", "ev-hybrid-parts"];
 

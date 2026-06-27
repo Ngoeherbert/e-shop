@@ -28,7 +28,7 @@ export function Hero({ settings }: HeroProps) {
       {heroImage ? (
         <Image
           src={heroImage}
-          alt={`${settings?.siteName ?? "AutoParts Hub"} hero automotive parts`}
+          alt={`${settings?.siteName ?? "ShopStore"} hero automotive parts`}
           fill
           priority
           sizes="100vw"

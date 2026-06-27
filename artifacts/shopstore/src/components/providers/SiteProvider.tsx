@@ -13,8 +13,7 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
     root.style.setProperty("--color-primary", settings.primaryColor);
     root.style.setProperty("--site-primary", settings.primaryColor);
     root.style.setProperty("--site-name", `"${settings.siteName}"`);
-    document.title = `${settings.siteName} - ${settings.siteTagline}`;
-  }, [settings.primaryColor, settings.siteName, settings.siteTagline]);
+  }, [settings.primaryColor, settings.siteName]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");

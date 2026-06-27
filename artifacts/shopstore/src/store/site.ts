@@ -29,8 +29,8 @@ interface SiteStore {
 }
 
 const defaultSettings: SiteSettings = {
-  siteName: "AutoParts Hub",
-  siteTagline: "Quality Spare Parts for Every Drive.",
+  siteName: "ShopStore",
+  siteTagline: "Quality Parts for Every Drive.",
   siteDescription: "Find quality OEM-style and aftermarket spare parts for your daily driver, work truck, family SUV, or weekend project car.",
   logoUrl: null,
   primaryColor: "#dc2626",
@@ -42,7 +42,7 @@ const defaultSettings: SiteSettings = {
   announcementDiscount: 10,
   whatsappNumber: "+1234567890",
   nowPaymentsUrl: "https://nowpayments.io/payment/?iid=replace-with-your-invoice",
-  heroHeadline: "Find Parts.\nDrive Better.",
+  heroHeadline: "Shop Parts.\nDrive Better.",
   heroSubtitle: "Find quality OEM-style and aftermarket spare parts for your daily driver, work truck, family SUV, or weekend project car.",
   heroImage: null,
 };

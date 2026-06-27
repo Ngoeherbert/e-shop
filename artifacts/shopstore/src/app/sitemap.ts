@@ -13,11 +13,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const now = new Date();
-  const staticRoutes: MetadataRoute.Sitemap = ["/", "/shop", "/categories", "/deals", "/blog"].map((path) => ({
-    url: absoluteUrl(path),
+  const staticRoutes: MetadataRoute.Sitemap = [
+    { path: "/", changeFrequency: "daily" as const, priority: 1 },
+    { path: "/shop", changeFrequency: "daily" as const, priority: 0.9 },
+    { path: "/categories", changeFrequency: "weekly" as const, priority: 0.8 },
+    { path: "/deals", changeFrequency: "daily" as const, priority: 0.8 },
+    { path: "/blog", changeFrequency: "weekly" as const, priority: 0.7 },
+    { path: "/about", changeFrequency: "monthly" as const, priority: 0.5 },
+    { path: "/contact", changeFrequency: "monthly" as const, priority: 0.5 },
+  ].map((route) => ({
+    url: absoluteUrl(route.path),
     lastModified: now,
-    changeFrequency: path === "/" ? "daily" : "weekly",
-    priority: path === "/" ? 1 : 0.8,
+    changeFrequency: route.changeFrequency,
+    priority: route.priority,
   }));
 
   return [
