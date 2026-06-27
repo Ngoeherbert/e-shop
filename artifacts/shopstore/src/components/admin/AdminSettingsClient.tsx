@@ -26,9 +26,7 @@ interface Props {
     announcementText?: string | null;
     announcementEnabled?: boolean | null;
     whatsappNumber?: string | null;
-    telegramUsername?: string | null;
-    instagramUsername?: string | null;
-    facebookPageId?: string | null;
+    nowPaymentsUrl?: string | null;
     logoUrl?: string | null;
     heroHeadline?: string | null;
     heroSubtitle?: string | null;
@@ -61,11 +59,7 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
     announcementDiscount:
       serverSettings?.announcementDiscount ?? settings.announcementDiscount,
     whatsappNumber: serverSettings?.whatsappNumber ?? settings.whatsappNumber,
-    telegramUsername:
-      serverSettings?.telegramUsername ?? settings.telegramUsername,
-    instagramUsername:
-      serverSettings?.instagramUsername ?? settings.instagramUsername,
-    facebookPageId: serverSettings?.facebookPageId ?? settings.facebookPageId,
+    nowPaymentsUrl: serverSettings?.nowPaymentsUrl ?? settings.nowPaymentsUrl,
     heroHeadline: serverSettings?.heroHeadline ?? settings.heroHeadline,
     heroSubtitle: serverSettings?.heroSubtitle ?? settings.heroSubtitle,
     logoUrl: serverSettings?.logoUrl ?? settings.logoUrl ?? "",
@@ -279,7 +273,7 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
         <Section
           icon={MessageSquare}
           title="Contact Channels"
-          description="Messaging platforms for orders"
+          description="WhatsApp support and crypto checkout"
         >
           {[
             {
@@ -288,19 +282,9 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
               placeholder: "+1234567890",
             },
             {
-              key: "telegramUsername",
-              label: "Telegram Username",
-              placeholder: "username",
-            },
-            {
-              key: "instagramUsername",
-              label: "Instagram Username",
-              placeholder: "username",
-            },
-            {
-              key: "facebookPageId",
-              label: "Facebook Page ID",
-              placeholder: "page-id",
+              key: "nowPaymentsUrl",
+              label: "NOWPayments Checkout URL",
+              placeholder: "https://nowpayments.io/payment/?iid=...",
             },
           ].map(({ key, label, placeholder }) => (
             <Field key={key} label={label}>

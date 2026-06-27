@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { StoreLayout } from "@/components/layout/StoreLayout";
 import { Hero } from "@/components/home/Hero";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
@@ -11,6 +13,12 @@ import { products, categories, siteSettings } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const metadata: Metadata = buildMetadata({
+  title: "Home",
+  description: "Shop quality automotive spare parts, featured deals, expert guides, and WhatsApp support with crypto checkout through NOWPayments.",
+  path: "/",
+});
 const homeCategorySlugs = ["sedan-parts", "suv-parts", "truck-parts", "performance-parts", "ev-hybrid-parts"];
 
 export default async function HomePage() {

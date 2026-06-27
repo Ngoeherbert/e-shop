@@ -5,9 +5,8 @@ import { desc, sql } from "drizzle-orm";
 
 const CHANNEL_COLORS: Record<string, string> = {
   whatsapp: "#22c55e",
-  telegram: "#3b82f6",
-  instagram: "#ec4899",
-  facebook: "#1d4ed8",
+  nowpayments: "#f59e0b",
+  crypto: "#111827",
   website: "#64748b",
 };
 

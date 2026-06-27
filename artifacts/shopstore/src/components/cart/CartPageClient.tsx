@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trash2, ShoppingBag, MessageCircle, Send, Instagram, Facebook, Tag } from "lucide-react";
+import { Trash2, ShoppingBag, MessageCircle, Tag, Bitcoin } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/cart";
@@ -14,7 +14,6 @@ export function CartPageClient() {
   const { items, removeItem, updateQuantity, clearCart, promoCode, promoDiscount, applyPromoCode, removePromoCode, getSubtotal, getTotal } = useCartStore();
   const { settings } = useSiteStore();
   const [promoInput, setPromoInput] = useState("");
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const subtotal = getSubtotal();
   const total = getTotal();
@@ -33,7 +32,7 @@ export function CartPageClient() {
 
   const orderSummary = items.map((i) => `${i.name} x${i.quantity} - ${formatPrice(i.price * i.quantity)}`).join("\n");
   const orderMessage = encodeURIComponent(
-    `Hi! I want to place an order:\n\n${orderSummary}\n\nSubtotal: ${formatPrice(subtotal)}${promoCode ? `\nPromo: ${promoCode} (-${promoDiscount}%)` : ""}\nTotal: ${formatPrice(total)}\n\nPlease send me payment and shipping details.`
+    `Hi! I want to place an order:\n\n${orderSummary}\n\nSubtotal: ${formatPrice(subtotal)}${promoCode ? `\nPromo: ${promoCode} (-${promoDiscount}%)` : ""}\nTotal: ${formatPrice(total)}\n\nI can pay with crypto via NOWPayments. If crypto is not convenient, please send another payment option on WhatsApp.`
   );
 
   if (items.length === 0) {
@@ -76,7 +75,7 @@ export function CartPageClient() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20, height: 0 }}
-                className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4"
+                className="flex flex-col gap-4 bg-white border border-gray-100 rounded-2xl p-4 sm:flex-row sm:items-center"
               >
                 <Link href={`/products/${item.id}`}>
                   {item.image ? (
@@ -98,7 +97,7 @@ export function CartPageClient() {
                   </Link>
                   <p className="font-bold text-gray-900 mt-1">{formatPrice(item.price)}</p>
                 </div>
-                <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden shrink-0">
+                <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden self-start shrink-0">
                   <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-3 py-2 hover:bg-gray-50 text-gray-600">−</button>
                   <span className="px-4 py-2 font-semibold text-sm">{item.quantity}</span>
                   <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-3 py-2 hover:bg-gray-50 text-gray-600">+</button>
@@ -169,50 +168,34 @@ export function CartPageClient() {
             </div>
 
             <div className="mt-5">
-              <p className="text-sm font-semibold text-gray-700 mb-3">Choose how to order:</p>
-              <div className="grid grid-cols-2 gap-2">
+              <p className="text-sm font-semibold text-gray-700 mb-3">Choose a payment option:</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <a
+                  href={settings.nowPaymentsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 bg-gray-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors"
+                >
+                  <Bitcoin size={16} /> Pay Crypto
+                </a>
                 <a
                   href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}?text=${orderMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={clearCart}
-                  className="flex items-center justify-center gap-1.5 py-2.5 bg-green-500 hover:bg-green-600 text-white text-xs font-semibold rounded-xl transition-colors"
+                  className="flex items-center justify-center gap-2 py-3 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl transition-colors"
                 >
-                  <MessageCircle size={14} /> WhatsApp
-                </a>
-                <a
-                  href={`https://t.me/${settings.telegramUsername}?text=${orderMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={clearCart}
-                  className="flex items-center justify-center gap-1.5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition-colors"
-                >
-                  <Send size={14} /> Telegram
-                </a>
-                <a
-                  href={`https://instagram.com/${settings.instagramUsername}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={clearCart}
-                  className="flex items-center justify-center gap-1.5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-semibold rounded-xl transition-all"
-                >
-                  <Instagram size={14} /> Instagram
-                </a>
-                <a
-                  href={`https://m.me/${settings.facebookPageId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={clearCart}
-                  className="flex items-center justify-center gap-1.5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold rounded-xl transition-colors"
-                >
-                  <Facebook size={14} /> Messenger
+                  <MessageCircle size={16} /> WhatsApp Help
                 </a>
               </div>
+              <p className="mt-3 text-xs leading-relaxed text-gray-500">
+                Pay securely with crypto through NOWPayments. Don&apos;t have crypto? Message us on WhatsApp and we&apos;ll send another payment option.
+              </p>
             </div>
           </div>
 
           <p className="text-xs text-gray-400 text-center">
-            No payment is processed on this platform. You'll be connected with the seller directly to complete your purchase.
+            No payment is processed on this platform. You&apos;ll be connected with the seller directly to complete your purchase.
           </p>
         </div>
       </div>

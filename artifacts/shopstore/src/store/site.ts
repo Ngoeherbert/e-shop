@@ -14,9 +14,7 @@ interface SiteSettings {
   announcementCode: string;
   announcementDiscount: number;
   whatsappNumber: string;
-  telegramUsername: string;
-  instagramUsername: string;
-  facebookPageId: string;
+  nowPaymentsUrl: string;
   heroHeadline: string;
   heroSubtitle: string;
   heroImage: string | null;
@@ -38,14 +36,12 @@ const defaultSettings: SiteSettings = {
   primaryColor: "#dc2626",
   secondaryColor: "#111827",
   defaultTheme: "light",
-  announcementText: "Get 10% off brake pads, filters, and service parts with code DRIVE10!",
+  announcementText: "Pay with crypto via NOWPayments, or message us on WhatsApp for alternate payment options.",
   announcementEnabled: true,
   announcementCode: "DRIVE10",
   announcementDiscount: 10,
   whatsappNumber: "+1234567890",
-  telegramUsername: "autopartshub",
-  instagramUsername: "autopartshub",
-  facebookPageId: "autopartshub",
+  nowPaymentsUrl: "https://nowpayments.io/payment/?iid=replace-with-your-invoice",
   heroHeadline: "Find Parts.\nDrive Better.",
   heroSubtitle: "Find quality OEM-style and aftermarket spare parts for your daily driver, work truck, family SUV, or weekend project car.",
   heroImage: null,

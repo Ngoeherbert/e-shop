@@ -206,7 +206,7 @@ export function Navbar({ categories = [] }: { categories?: NavCategory[] }) {
                 </div>
               ) : (
                 <div className="hidden md:flex items-center gap-2">
-                  <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">
+                  <Link href="/login" className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 shadow-sm transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white">
                     Login
                   </Link>
                 </div>
@@ -254,7 +254,7 @@ export function Navbar({ categories = [] }: { categories?: NavCategory[] }) {
                     <>
                       <Link
                         href="/login"
-                        className="text-sm font-medium text-gray-700 py-2"
+                        className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-gray-900 px-4 py-3 text-sm font-semibold text-white"
                         onClick={() => setMobileOpen(false)}
                       >
                         Login

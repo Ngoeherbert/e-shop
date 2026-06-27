@@ -20,9 +20,7 @@ export async function POST(req: NextRequest) {
       announcementCode: body.announcementCode,
       announcementDiscount: body.announcementDiscount,
       whatsappNumber: body.whatsappNumber,
-      telegramUsername: body.telegramUsername,
-      instagramUsername: body.instagramUsername,
-      facebookPageId: body.facebookPageId,
+      nowPaymentsUrl: body.nowPaymentsUrl,
       heroHeadline: body.heroHeadline,
       heroSubtitle: body.heroSubtitle,
       heroImage: body.heroImage || null,
@@ -35,6 +33,12 @@ export async function POST(req: NextRequest) {
       primaryColor: body.primaryColor ?? "#dc2626",
       secondaryColor: body.secondaryColor ?? "#111827",
       defaultTheme: body.defaultTheme ?? "light",
+      whatsappNumber: body.whatsappNumber ?? "+1234567890",
+      nowPaymentsUrl: body.nowPaymentsUrl ?? "https://nowpayments.io/payment/?iid=replace-with-your-invoice",
+      announcementText: body.announcementText ?? "Pay with crypto via NOWPayments, or message us on WhatsApp for alternate payment options.",
+      announcementEnabled: body.announcementEnabled ?? true,
+      announcementCode: body.announcementCode ?? "SAVE10",
+      announcementDiscount: body.announcementDiscount ?? 10,
     }).returning();
     return NextResponse.json(created);
   }

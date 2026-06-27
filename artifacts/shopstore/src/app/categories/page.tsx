@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { StoreLayout } from "@/components/layout/StoreLayout";
 import { BlogSection } from "@/components/home/BlogSection";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
@@ -5,6 +7,12 @@ import { StoreBreadcrumb } from "@/components/ui/StoreBreadcrumb";
 import { db } from "@/lib/db";
 import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const metadata: Metadata = buildMetadata({
+  title: "Auto Parts Categories",
+  description: "Explore automotive part categories for maintenance, repair, accessories, performance, EV, hybrid, truck, SUV, and sedan needs.",
+  path: "/categories",
+});
 export default async function CategoriesPage() {
   await ensureStoreSeedData();
   const allCategories = await db.query.categories.findMany().catch(() => []);

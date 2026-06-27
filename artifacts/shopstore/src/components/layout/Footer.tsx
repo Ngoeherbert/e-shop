@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, Instagram, Facebook, Send } from "lucide-react";
+import { MessageCircle, Bitcoin } from "lucide-react";
 import { useSiteStore } from "@/store/site";
 
 export function Footer() {
@@ -41,31 +41,13 @@ export function Footer() {
                 <MessageCircle size={18} />
               </a>
               <a
-                href={`https://t.me/${settings.telegramUsername}`}
+                href={settings.nowPaymentsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-gray-800 hover:bg-blue-500 rounded-lg transition-colors"
-                aria-label="Telegram"
+                className="p-2 bg-gray-800 hover:bg-yellow-500 rounded-lg transition-colors"
+                aria-label="NOWPayments crypto checkout"
               >
-                <Send size={18} />
-              </a>
-              <a
-                href={`https://instagram.com/${settings.instagramUsername}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-gray-800 hover:bg-pink-600 rounded-lg transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram size={18} />
-              </a>
-              <a
-                href={`https://m.me/${settings.facebookPageId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook size={18} />
+                <Bitcoin size={18} />
               </a>
             </div>
           </div>
@@ -107,7 +89,7 @@ export function Footer() {
 
           <div>
             <h4 className="font-semibold text-white mb-4">Contact Us</h4>
-            <p className="text-sm mb-4">Reach us on your preferred platform to place an order or ask questions.</p>
+            <p className="text-sm mb-4">Pay with crypto through NOWPayments or message us on WhatsApp for another payment option.</p>
             <ul className="space-y-2.5">
               <li>
                 <a
@@ -122,35 +104,13 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={`https://t.me/${settings.telegramUsername}`}
+                  href={settings.nowPaymentsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm flex items-center gap-2 hover:text-white transition-colors"
                 >
-                  <Send size={15} className="text-blue-400" />
-                  Telegram
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`https://instagram.com/${settings.instagramUsername}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm flex items-center gap-2 hover:text-white transition-colors"
-                >
-                  <Instagram size={15} className="text-pink-400" />
-                  Instagram DM
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`https://m.me/${settings.facebookPageId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm flex items-center gap-2 hover:text-white transition-colors"
-                >
-                  <Facebook size={15} className="text-blue-500" />
-                  Facebook Messenger
+                  <Bitcoin size={15} className="text-yellow-400" />
+                  NOWPayments Crypto
                 </a>
               </li>
             </ul>

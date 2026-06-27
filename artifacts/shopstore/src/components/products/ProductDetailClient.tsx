@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Heart, ShoppingCart, MessageCircle, Send, Instagram, Facebook,
+  Heart, ShoppingCart, MessageCircle, Bitcoin,
   ChevronLeft, ChevronRight, Star, Minus, Plus
 } from "lucide-react";
 import { toast } from "sonner";
@@ -34,7 +34,7 @@ interface Product {
 
 interface Props {
   product: Product;
-  settings: { whatsappNumber?: string | null; telegramUsername?: string | null; instagramUsername?: string | null; facebookPageId?: string | null } | null;
+  settings: { whatsappNumber?: string | null; nowPaymentsUrl?: string | null } | null;
   relatedProducts?: Product[];
 }
 
@@ -54,13 +54,11 @@ export function ProductDetailClient({ product, settings, relatedProducts = [] }:
 
   const siteSettings = {
     whatsappNumber: settings?.whatsappNumber ?? storeSettings.whatsappNumber,
-    telegramUsername: settings?.telegramUsername ?? storeSettings.telegramUsername,
-    instagramUsername: settings?.instagramUsername ?? storeSettings.instagramUsername,
-    facebookPageId: settings?.facebookPageId ?? storeSettings.facebookPageId,
+    nowPaymentsUrl: settings?.nowPaymentsUrl ?? storeSettings.nowPaymentsUrl,
   };
 
   const orderMessage = encodeURIComponent(
-    `Hi! I want to order: ${product.name} (x${quantity}) - Total: ${formatPrice(price * quantity)}`
+    `Hi! I want to order: ${product.name} (x${quantity}) - Total: ${formatPrice(price * quantity)}. I need another payment option if crypto is not available.`
   );
 
   const handleAddToCart = () => {
@@ -234,41 +232,28 @@ export function ProductDetailClient({ product, settings, relatedProducts = [] }:
           </div>
 
           <div>
-            <p className="font-semibold text-gray-900 mb-3">Order via messaging:</p>
-            <div className="grid grid-cols-2 gap-2">
+            <p className="font-semibold text-gray-900 mb-3">Payment and support:</p>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <a
+                href={siteSettings.nowPaymentsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 py-3 bg-gray-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors"
+              >
+                <Bitcoin size={16} /> Pay Crypto
+              </a>
               <a
                 href={`https://wa.me/${siteSettings.whatsappNumber.replace(/\D/g, "")}?text=${orderMessage}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-xl transition-colors"
+                className="flex items-center justify-center gap-2 py-3 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl transition-colors"
               >
-                <MessageCircle size={16} /> WhatsApp
-              </a>
-              <a
-                href={`https://t.me/${siteSettings.telegramUsername}?text=${orderMessage}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-xl transition-colors"
-              >
-                <Send size={16} /> Telegram
-              </a>
-              <a
-                href={`https://instagram.com/${siteSettings.instagramUsername}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-sm font-medium rounded-xl transition-all"
-              >
-                <Instagram size={16} /> Instagram DM
-              </a>
-              <a
-                href={`https://m.me/${siteSettings.facebookPageId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-xl transition-colors"
-              >
-                <Facebook size={16} /> Messenger
+                <MessageCircle size={16} /> WhatsApp Help
               </a>
             </div>
+            <p className="mt-3 text-sm leading-relaxed text-gray-500">
+              Crypto checkout is available through NOWPayments. If you do not have crypto, message us on WhatsApp and we&apos;ll share another payment option.
+            </p>
           </div>
 
           {Array.isArray(product.tags) && product.tags.length > 0 && (

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { StoreLayout } from "@/components/layout/StoreLayout";
 import { BlogSection } from "@/components/home/BlogSection";
 import { ShopPageClient } from "@/components/products/ShopPageClient";
@@ -6,6 +8,12 @@ import { products, categories } from "@/lib/db/schema";
 import { desc, ilike, eq, and, or } from "drizzle-orm";
 import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const metadata: Metadata = buildMetadata({
+  title: "Shop Auto Parts",
+  description: "Browse OEM-style and aftermarket automotive parts for sedans, SUVs, trucks, EVs, hybrids, and performance builds.",
+  path: "/shop",
+});
 interface Props {
   searchParams: Promise<{ search?: string; category?: string; sort?: string; page?: string }>;
 }
