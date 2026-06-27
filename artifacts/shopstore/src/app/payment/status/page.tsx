@@ -58,7 +58,7 @@ const TERMINAL_STATUSES = [
 
 function PaymentStatusContent() {
   const searchParams = useSearchParams();
-  const paymentId = searchParams?.get('payment_id') ?? null;
+  const paymentId = searchParams ? searchParams.get('payment_id') : null;
 
   const [status, setStatus] = useState<PaymentStatusData | null>(null);
   const [loading, setLoading] = useState(true);
