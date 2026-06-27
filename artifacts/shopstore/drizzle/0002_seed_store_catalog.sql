@@ -154,8 +154,8 @@ INSERT INTO "products" ("name", "slug", "description", "price", "original_price"
   )
 ON CONFLICT ("slug") DO NOTHING;
 --> statement-breakpoint
-INSERT INTO "site_settings" ("id", "site_name", "site_tagline", "site_description", "logo_url", "primary_color", "secondary_color", "default_theme", "announcement_text", "announcement_enabled", "announcement_code", "announcement_discount", "whatsapp_number", "telegram_username", "instagram_username", "facebook_page_id", "hero_headline", "hero_subtitle", "hero_image") VALUES
-  (1, 'DN Design Store', 'Big Deals. Bigger Savings.', 'Discover premium products at unbeatable prices curated for quality, comfort and style.', NULL, '#dc2626', '#111827', 'light', 'Claim 10% off on orders with code SAVE10 - Limited time only!', true, 'SAVE10', 10, '+1234567890', 'shopstore', 'shopstore', 'shopstore', 'Big Deals.
+INSERT INTO "site_settings" ("id", "site_name", "site_tagline", "site_description", "logo_url", "primary_color", "secondary_color", "default_theme", "announcement_text", "announcement_enabled", "announcement_code", "announcement_discount", "whatsapp_number", "now_payments_url", "hero_headline", "hero_subtitle", "hero_image") VALUES
+  (1, 'DN Design Store', 'Big Deals. Bigger Savings.', 'Discover premium products at unbeatable prices curated for quality, comfort and style.', NULL, '#dc2626', '#111827', 'light', 'Pay with crypto via NOWPayments, or message us on WhatsApp for alternate payment options.', true, 'SAVE10', 10, '+1234567890', 'https://nowpayments.io/payment/?iid=replace-with-your-invoice', 'Big Deals.
 Bigger Savings.', 'Discover premium products at unbeatable prices curated for quality, comfort and style.', 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=80')
 ON CONFLICT ("id") DO UPDATE SET
   "site_name" = COALESCE("site_settings"."site_name", EXCLUDED."site_name"),

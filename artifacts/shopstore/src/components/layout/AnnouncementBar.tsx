@@ -16,7 +16,7 @@ export function AnnouncementBar() {
         initial={{ height: 0, opacity: 0 }}
         animate={{ height: "auto", opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
-        className="text-white text-sm py-2.5 px-4 flex items-center justify-center gap-4 relative"
+        className="relative flex flex-col items-center justify-center gap-2 px-10 py-3 text-center text-sm text-white sm:flex-row sm:gap-4 sm:px-4 sm:py-2.5"
         style={{ backgroundColor: settings.primaryColor }}
       >
         <p className="text-center">
@@ -24,7 +24,7 @@ export function AnnouncementBar() {
           {settings.announcementText.split(" ").slice(2).join(" ")}
         </p>
         <button
-          className="border border-white/40 text-white text-xs font-medium px-3 py-1 rounded-md hover:bg-white/10 transition-colors"
+          className="shrink-0 rounded-md border border-white/40 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-white/10"
           onClick={() => {
             const el = document.getElementById("promo-input");
             if (el) {
@@ -38,7 +38,7 @@ export function AnnouncementBar() {
         </button>
         <button
           onClick={dismissAnnouncement}
-          className="absolute right-4 p-1 hover:bg-white/10 rounded-full transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 transition-colors hover:bg-white/10"
           aria-label="Dismiss"
         >
           <X size={16} />
