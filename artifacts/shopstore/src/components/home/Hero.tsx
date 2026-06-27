@@ -75,13 +75,13 @@ export function Hero({ settings }: HeroProps) {
               className="flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-lg transition-all hover:opacity-90 hover:scale-105 active:scale-95"
               style={{ backgroundColor: primaryColor }}
             >
-              Shop Spare Parts <ArrowRight size={18} />
+              Shop Now <ArrowRight size={18} />
             </Link>
             <Link
               href="/shop?featured=true"
               className="px-6 py-3 text-white font-semibold rounded-lg border-2 border-white/40 hover:bg-white/10 transition-all hover:scale-105 active:scale-95"
             >
-              Featured Parts
+              Featured
             </Link>
           </motion.div>
         </motion.div>
