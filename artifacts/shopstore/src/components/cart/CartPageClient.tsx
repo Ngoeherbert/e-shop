@@ -14,6 +14,7 @@ export function CartPageClient() {
   const { items, removeItem, updateQuantity, clearCart, promoCode, promoDiscount, applyPromoCode, removePromoCode, getSubtotal, getTotal } = useCartStore();
   const { settings } = useSiteStore();
   const [promoInput, setPromoInput] = useState("");
+  const [isCreatingCryptoCheckout, setIsCreatingCryptoCheckout] = useState(false);
 
   const subtotal = getSubtotal();
   const total = getTotal();
@@ -34,6 +35,33 @@ export function CartPageClient() {
   const orderMessage = encodeURIComponent(
     `Hi! I want to place an order:\n\n${orderSummary}\n\nSubtotal: ${formatPrice(subtotal)}${promoCode ? `\nPromo: ${promoCode} (-${promoDiscount}%)` : ""}\nTotal: ${formatPrice(total)}\n\nI can pay with crypto via NOWPayments. If crypto is not convenient, please send another payment option on WhatsApp.`
   );
+
+  const handleCryptoCheckout = async () => {
+    setIsCreatingCryptoCheckout(true);
+
+    try {
+      const response = await fetch("/api/payments/nowpayments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: total,
+          orderDescription: orderSummary || "Cart checkout",
+          orderId: `cart-${Date.now()}`,
+        }),
+      });
+      const data = await response.json().catch(() => ({})) as { checkoutUrl?: string; error?: string };
+
+      if (!response.ok || !data.checkoutUrl) {
+        throw new Error(data.error || "Unable to start crypto checkout");
+      }
+
+      window.location.href = data.checkoutUrl;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to start crypto checkout");
+    } finally {
+      setIsCreatingCryptoCheckout(false);
+    }
+  };
 
   if (items.length === 0) {
     return (
@@ -170,14 +198,14 @@ export function CartPageClient() {
             <div className="mt-5">
               <p className="text-sm font-semibold text-gray-700 mb-3">Choose a payment option:</p>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <a
-                  href={settings.nowPaymentsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-3 bg-gray-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors"
+                <button
+                  type="button"
+                  onClick={handleCryptoCheckout}
+                  disabled={isCreatingCryptoCheckout}
+                  className="flex items-center justify-center gap-2 py-3 bg-gray-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <Bitcoin size={16} /> Pay Crypto
-                </a>
+                  <Bitcoin size={16} /> {isCreatingCryptoCheckout ? "Opening..." : "Pay Crypto"}
+                </button>
                 <a
                   href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}?text=${orderMessage}`}
                   target="_blank"
