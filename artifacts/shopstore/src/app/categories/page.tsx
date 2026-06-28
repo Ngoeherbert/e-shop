@@ -5,16 +5,16 @@ import { BlogSection } from "@/components/home/BlogSection";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { StoreBreadcrumb } from "@/components/ui/StoreBreadcrumb";
 import { db } from "@/lib/db";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Auto Parts Categories",
-  description: "Explore automotive part categories for maintenance, repair, accessories, performance, EV, hybrid, truck, SUV, and sedan needs.",
+  title: "Health Product Categories",
+  description: "Explore peptides, medicines, meds, drugs, health support, supplements, wellness tools, and care guide categories.",
   path: "/categories",
 });
 export default async function CategoriesPage() {
-  await ensureStoreSeedData();
   const allCategories = await db.query.categories.findMany().catch(() => []);
   return (
     <StoreLayout>

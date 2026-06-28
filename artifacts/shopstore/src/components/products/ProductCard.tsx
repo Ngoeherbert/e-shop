@@ -81,7 +81,7 @@ export function ProductCard({
             {images[0] ? (
               <Image
                 src={images[0]}
-                alt={`${name} automotive spare part`}
+                alt={`${name} health product`}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"

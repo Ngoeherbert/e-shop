@@ -38,7 +38,7 @@ export function FeaturedProducts({ products }: Props) {
           viewport={{ once: true }}
         >
           <div>
-            <h2 className="text-4xl font-bold text-gray-900">Featured Spare Parts</h2>
+            <h2 className="text-4xl font-bold text-gray-900">Featured Health Products</h2>
             <p className="text-gray-500 mt-2">Popular replacement parts selected for fit, quality, and value</p>
           </div>
           <Link
@@ -82,7 +82,7 @@ export function FeaturedProducts({ products }: Props) {
             className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-lg font-medium"
             style={{ backgroundColor: settings.primaryColor }}
           >
-            View All Parts <ArrowRight size={16} />
+            View All Products <ArrowRight size={16} />
           </Link>
         </div>
       </div>

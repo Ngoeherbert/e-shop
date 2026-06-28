@@ -6,22 +6,22 @@ import { Trophy, Truck, RotateCcw, Shield } from "lucide-react";
 const features = [
   {
     icon: Trophy,
-    title: "Fitment-focused Quality",
-    description: "Trusted OEM-style and aftermarket brands selected for dependable repairs.",
+    title: "Health-focused Quality",
+    description: "Carefully presented peptides, medicines, wellness products, and health essentials with clear product details.",
   },
   {
     icon: Truck,
-    title: "Fast Parts Delivery",
-    description: "In-stock service parts are processed quickly so repairs stay on schedule.",
+    title: "Fast Health Delivery",
+    description: "In-stock health products are processed quickly with support-focused checkout options.",
   },
   {
     icon: RotateCcw,
-    title: "Easy Fitment Returns",
-    description: "Simple returns when a part does not match your vehicle or project.",
+    title: "Helpful Product Support",
+    description: "Clear support when a health product, med guide, or wellness item needs follow-up.",
   },
   {
     icon: Shield,
-    title: "Secure Parts Ordering",
+    title: "Secure Health Ordering",
     description: "Your privacy and security are our top priority. Safe and protected.",
   },
 ];
@@ -36,9 +36,9 @@ export function WhyShopWithUs() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-3">Why buy parts from us?</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-3">Why buy from feel peptides?</h2>
           <p className="text-gray-500 max-w-xl mx-auto">
-            Find reliable parts for sedans, SUVs, trucks, performance builds, EVs, and classic restorations.
+            Find peptides, medicines, meds, wellness products, drug information, and health resources with responsible support.
           </p>
         </motion.div>
 

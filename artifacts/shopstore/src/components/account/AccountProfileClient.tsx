@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { User, Mail, Phone, Bell, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -15,12 +15,41 @@ export function AccountProfileClient() {
   const [newsletter, setNewsletter] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    async function loadProfile() {
+      if (!session) return;
+      setName(session.user.name ?? "");
+      const response = await fetch("/api/account/profile", { cache: "no-store" });
+      if (!response.ok) return;
+      const data = await response.json();
+      setName(data.user?.name ?? session.user.name ?? "");
+      setPhone(data.user?.phoneNumber ?? "");
+      setNewsletter(Boolean(data.user?.newsletterSubscribed));
+    }
+
+    loadProfile();
+  }, [session]);
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setSaving(false);
-    toast.success("Profile updated!");
+    try {
+      const response = await fetch("/api/account/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phoneNumber: phone, newsletterSubscribed: newsletter }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error ?? "Failed to update profile");
+      setName(data.user?.name ?? name);
+      setPhone(data.user?.phoneNumber ?? "");
+      setNewsletter(Boolean(data.user?.newsletterSubscribed));
+      toast.success("Profile synced to the database!");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to update profile");
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (isPending) {

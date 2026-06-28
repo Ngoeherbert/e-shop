@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { categories } from "@/lib/db/schema";
 import { slugify } from "@/lib/utils";
+import { revalidateCatalogPaths } from "@/lib/revalidate-catalog";
 
 export async function GET() {
   const all = await db.query.categories.findMany();
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
       image: body.image || null,
       bannerImage: body.bannerImage || null,
     }).returning();
-    
+    revalidateCatalogPaths();
     return NextResponse.json(category);
   } catch (error) {
     console.error("Failed to create category:", error);
