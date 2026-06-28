@@ -29,21 +29,21 @@ interface SiteStore {
 }
 
 const defaultSettings: SiteSettings = {
-  siteName: "ShopStore",
-  siteTagline: "Quality Parts for Every Drive.",
-  siteDescription: "Find quality OEM-style and aftermarket spare parts for your daily driver, work truck, family SUV, or weekend project car.",
+  siteName: "feel peptides",
+  siteTagline: "Peptides, meds, and health essentials.",
+  siteDescription: "Explore peptides, medicines, wellness products, drug information, med guides, and health-focused support in one trusted shop.",
   logoUrl: null,
-  primaryColor: "#dc2626",
+  primaryColor: "#2563eb",
   secondaryColor: "#111827",
   defaultTheme: "light",
   announcementText: "Pay with crypto via NOWPayments, or message us on WhatsApp for alternate payment options.",
   announcementEnabled: true,
-  announcementCode: "DRIVE10",
+  announcementCode: "HEALTH10",
   announcementDiscount: 10,
   whatsappNumber: "+1234567890",
   nowPaymentsUrl: "https://nowpayments.io/payment/?iid=replace-with-your-invoice",
-  heroHeadline: "Shop Parts.\nDrive Better.",
-  heroSubtitle: "Find quality OEM-style and aftermarket spare parts for your daily driver, work truck, family SUV, or weekend project car.",
+  heroHeadline: "Shop Health.\nFeel Better.",
+  heroSubtitle: "Find peptides, meds, medicines, wellness products, and health resources with clear product details and supportive checkout options.",
   heroImage: null,
 };
 

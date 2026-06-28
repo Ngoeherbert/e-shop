@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Plus, Trash2, Star } from "lucide-react";
 import { toast } from "sonner";
@@ -18,29 +18,52 @@ interface Address {
 }
 
 export function AddressesPageClient() {
-  const [addresses, setAddresses] = useState<Address[]>([
-    { id: 1, label: "Home", fullName: "Jane Doe", phone: "+1 555 123 4567", street: "123 Main Street", city: "New York", country: "United States", isDefault: true },
-  ]);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Address | null>(null);
   const [form, setForm] = useState({ label: "Home", fullName: "", phone: "", street: "", city: "", country: "" });
 
-  const handleAdd = (e: React.FormEvent) => {
+  const loadAddresses = async () => {
+    const response = await fetch("/api/account/addresses", { cache: "no-store" });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok) setAddresses(data.addresses ?? []);
+  };
+
+  useEffect(() => {
+    loadAddresses();
+  }, []);
+
+  const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    setAddresses((prev) => [...prev, { id: Date.now(), ...form, isDefault: prev.length === 0 }]);
+    const response = await fetch("/api/account/addresses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) { toast.error(data.error ?? "Failed to save address"); return; }
+    setAddresses((prev) => [...prev.map((a) => data.isDefault ? { ...a, isDefault: false } : a), data]);
     setForm({ label: "Home", fullName: "", phone: "", street: "", city: "", country: "" });
     setShowForm(false);
-    toast.success("Address added!");
+    toast.success("Address synced to the database!");
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deleteTarget) return;
-    setAddresses((prev) => prev.filter((a) => a.id !== deleteTarget.id));
+    const response = await fetch(`/api/account/addresses/${deleteTarget.id}`, { method: "DELETE" });
+    if (!response.ok) { toast.error("Failed to remove address"); return; }
+    await loadAddresses();
     setDeleteTarget(null);
-    toast.success("Address removed");
+    toast.success("Address removed from the database");
   };
 
-  const handleSetDefault = (id: number) => {
+  const handleSetDefault = async (id: number) => {
+    const response = await fetch(`/api/account/addresses/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isDefault: true }),
+    });
+    if (!response.ok) { toast.error("Failed to update default address"); return; }
     setAddresses((prev) => prev.map((a) => ({ ...a, isDefault: a.id === id })));
   };
 

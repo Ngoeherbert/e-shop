@@ -28,7 +28,7 @@ export function CategoryGrid({ categories, limit }: Props) {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-3">Shop Parts by Vehicle Category</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-3">Shop Health Categories</h2>
           <p className="text-gray-500 max-w-xl mx-auto">
             Find reliable parts for sedans, SUVs, trucks, performance builds, EVs, and classic restorations.
           </p>

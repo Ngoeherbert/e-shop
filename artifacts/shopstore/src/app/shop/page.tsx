@@ -10,8 +10,8 @@ import { ensureStoreSeedData } from "@/lib/db/seed";
 
 
 export const metadata: Metadata = buildMetadata({
-  title: "Shop Auto Parts",
-  description: "Browse OEM-style and aftermarket automotive parts for sedans, SUVs, trucks, EVs, hybrids, and performance builds.",
+  title: "Shop Health Products",
+  description: "Browse peptides, meds, medicines, wellness products, supplements, and health-related guides from feel peptides.",
   path: "/shop",
 });
 interface Props {

@@ -21,7 +21,7 @@ export function BlogSection({ limit = 3 }: { limit?: number }) {
           transition={{ duration: 0.5 }}
         >
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: settings.primaryColor }}>Store Journal</p>
+            <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: settings.primaryColor }}>Health Journal</p>
             <h2 className="mt-2 text-3xl font-black text-gray-900 md:text-4xl">Ideas, guides, and inspiration</h2>
             <p className="mt-2 max-w-2xl text-gray-500">Helpful reads for choosing products, styling your space, and getting more from your favorites.</p>
           </div>
