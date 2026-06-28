@@ -5,7 +5,6 @@ import { ProductDetailClient } from "@/components/products/ProductDetailClient";
 import { db } from "@/lib/db";
 import { products, siteSettings } from "@/lib/db/schema";
 import { and, desc, eq, ne } from "drizzle-orm";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 import { JsonLd, absoluteUrl, buildMetadata, productSeoDescription } from "@/lib/seo";
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  await ensureStoreSeedData();
   const { slug } = await params;
   const product = await db.query.products
     .findFirst({ where: eq(products.slug, slug), with: { category: true } })
@@ -31,8 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
+
+export const dynamic = "force-dynamic";
+
 export default async function ProductDetailPage({ params }: Props) {
-  await ensureStoreSeedData();
   const { slug } = await params;
 
   const product = await db.query.products

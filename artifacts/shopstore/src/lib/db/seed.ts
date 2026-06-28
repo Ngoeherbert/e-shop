@@ -117,8 +117,12 @@ async function seedSettings() {
 }
 
 async function seedStoreCatalog() {
-  await seedCategories();
-  await seedProducts();
+  // Runtime page loads should never recreate catalog records that an admin deleted.
+  // Only seed products/categories when explicitly requested for local/demo bootstrapping.
+  if (process.env.ENABLE_STORE_CATALOG_AUTO_SEED === "true") {
+    await seedCategories();
+    await seedProducts();
+  }
   await seedSettings();
 }
 

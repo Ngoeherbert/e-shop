@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { orderItems, products, reviews, wishlist } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { slugify } from "@/lib/utils";
+import { revalidateCatalogPaths } from "@/lib/revalidate-catalog";
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -30,6 +31,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
+  revalidateCatalogPaths();
   return NextResponse.json(updated);
 }
 
@@ -47,5 +49,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     await tx.delete(products).where(eq(products.id, productId));
   });
 
+  revalidateCatalogPaths();
   return NextResponse.json({ success: true });
 }

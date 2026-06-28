@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { products } from "@/lib/db/schema";
 import { slugify } from "@/lib/utils";
+import { revalidateCatalogPaths } from "@/lib/revalidate-catalog";
 
 export async function GET() {
   const all = await db.query.products.findMany({ with: { category: true } });
@@ -24,5 +25,6 @@ export async function POST(req: NextRequest) {
     trending: body.trending ?? false,
     tags: body.tags || [],
   }).returning();
+  revalidateCatalogPaths();
   return NextResponse.json(product);
 }

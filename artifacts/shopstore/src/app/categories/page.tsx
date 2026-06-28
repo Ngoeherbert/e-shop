@@ -5,8 +5,9 @@ import { BlogSection } from "@/components/home/BlogSection";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { StoreBreadcrumb } from "@/components/ui/StoreBreadcrumb";
 import { db } from "@/lib/db";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
   title: "Health Product Categories",
@@ -14,7 +15,6 @@ export const metadata: Metadata = buildMetadata({
   path: "/categories",
 });
 export default async function CategoriesPage() {
-  await ensureStoreSeedData();
   const allCategories = await db.query.categories.findMany().catch(() => []);
   return (
     <StoreLayout>

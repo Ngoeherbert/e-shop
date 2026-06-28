@@ -11,8 +11,9 @@ import { BlogSection } from "@/components/home/BlogSection";
 import { db } from "@/lib/db";
 import { products, categories, siteSettings } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
   title: "Peptides, Medicines & Health Deals",
@@ -23,7 +24,6 @@ export const metadata: Metadata = buildMetadata({
 const homeCategorySlugs = ["peptides", "medicines", "health-support", "supplements", "wellness-tools"];
 
 export default async function HomePage() {
-  await ensureStoreSeedData();
   const [featuredProducts, allCategories, settings] = await Promise.all([
     db.query.products.findMany({
       where: eq(products.featured, true),

@@ -8,7 +8,6 @@ import { StoreBreadcrumb } from "@/components/ui/StoreBreadcrumb";
 import { db } from "@/lib/db";
 import { categories, products } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 import { JsonLd, absoluteUrl, buildMetadata, seoDescription } from "@/lib/seo";
 
 interface Props {
@@ -21,7 +20,6 @@ const categoryFaqs = (name: string) => [
 ];
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  await ensureStoreSeedData();
   const { slug } = await params;
   const category = await db.query.categories.findFirst({ where: eq(categories.slug, slug) }).catch(() => null);
   if (!category) return buildMetadata({ title: "Category Not Found", path: `/categories/${slug}` });
@@ -33,8 +31,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
+
+export const dynamic = "force-dynamic";
+
 export default async function CategoryPage({ params }: Props) {
-  await ensureStoreSeedData();
   const { slug } = await params;
 
   const category = await db.query.categories.findFirst({

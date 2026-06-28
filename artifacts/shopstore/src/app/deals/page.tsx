@@ -6,8 +6,9 @@ import { DealsPageClient } from "@/components/products/DealsPageClient";
 import { db } from "@/lib/db";
 import { products } from "@/lib/db/schema";
 import { isNotNull } from "drizzle-orm";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
   title: "Health Product Deals",
@@ -15,7 +16,6 @@ export const metadata: Metadata = buildMetadata({
   path: "/deals",
 });
 export default async function DealsPage() {
-  await ensureStoreSeedData();
   const dealProducts = await db.query.products.findMany({
     where: isNotNull(products.originalPrice),
     with: { category: true },

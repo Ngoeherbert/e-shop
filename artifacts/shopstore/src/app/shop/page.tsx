@@ -6,8 +6,9 @@ import { ShopPageClient } from "@/components/products/ShopPageClient";
 import { db } from "@/lib/db";
 import { products, categories } from "@/lib/db/schema";
 import { desc, ilike, eq, and, or } from "drizzle-orm";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
   title: "Shop Health Products",
@@ -19,7 +20,6 @@ interface Props {
 }
 
 export default async function ShopPage({ searchParams }: Props) {
-  await ensureStoreSeedData();
   const params = await searchParams;
 
   const allCategories = await db.query.categories.findMany().catch(() => []);
