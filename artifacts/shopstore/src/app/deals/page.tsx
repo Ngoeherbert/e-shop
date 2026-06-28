@@ -10,8 +10,8 @@ import { ensureStoreSeedData } from "@/lib/db/seed";
 
 
 export const metadata: Metadata = buildMetadata({
-  title: "Auto Parts Deals",
-  description: "Find discounted automotive spare parts and checkout with crypto through NOWPayments or request another payment option on WhatsApp.",
+  title: "Health Product Deals",
+  description: "Find discounted peptides, medicines, meds, and health products with crypto checkout through NOWPayments or request another payment option on WhatsApp.",
   path: "/deals",
 });
 export default async function DealsPage() {

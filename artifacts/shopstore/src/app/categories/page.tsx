@@ -9,8 +9,8 @@ import { ensureStoreSeedData } from "@/lib/db/seed";
 
 
 export const metadata: Metadata = buildMetadata({
-  title: "Auto Parts Categories",
-  description: "Explore automotive part categories for maintenance, repair, accessories, performance, EV, hybrid, truck, SUV, and sedan needs.",
+  title: "Health Product Categories",
+  description: "Explore peptides, medicines, meds, drugs, health support, supplements, wellness tools, and care guide categories.",
   path: "/categories",
 });
 export default async function CategoriesPage() {

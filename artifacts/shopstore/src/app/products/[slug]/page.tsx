@@ -70,7 +70,7 @@ export default async function ProductDetailPage({ params }: Props) {
           category: product.category?.name,
           brand: {
             "@type": "Brand",
-            name: "ShopStore",
+            name: "feel peptides",
           },
           offers: {
             "@type": "Offer",
