@@ -30,7 +30,7 @@ export function CategoryGrid({ categories, limit }: Props) {
         >
           <h2 className="text-4xl font-bold text-gray-900 mb-3">Shop Health Categories</h2>
           <p className="text-gray-500 max-w-xl mx-auto">
-            Find reliable parts for sedans, SUVs, trucks, performance builds, EVs, and classic restorations.
+            Find peptides, medicines, wellness support, supplements, care guides, and other health essentials.
           </p>
         </motion.div>
 
@@ -40,7 +40,7 @@ export function CategoryGrid({ categories, limit }: Props) {
           </div>
         ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {categories.map((cat, i) => (
+          {displayCategories.map((cat, i) => (
             <motion.div
               key={cat.id}
               initial={{ opacity: 0, y: 20 }}
