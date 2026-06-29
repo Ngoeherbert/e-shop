@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
 
 export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://e-shop-shopstore.vercel.app");
-export const siteName = "ShopStore";
-export const brandColor = "#dc2626";
+export const siteName = "feel peptides";
+export const brandColor = "#2563eb";
 export const defaultDescription =
-  "ShopStore is your online destination for quality automotive spare parts, accessories, deals, and crypto-friendly checkout support.";
+  "feel peptides is your online destination for health-focused peptides, medicines, wellness products, drug information, med guides, and crypto-friendly checkout support.";
 
 export const storeKeywords = [
-  "ShopStore",
-  "online auto parts store",
-  "automotive spare parts",
-  "car spare parts",
-  "OEM replacement parts",
-  "aftermarket automotive parts",
-  "sedan parts",
-  "SUV accessories",
-  "truck replacement parts",
-  "performance car parts",
-  "EV and hybrid parts",
-  "classic car restoration parts",
+  "feel peptides",
+  "peptides",
+  "health products",
+  "medicines",
+  "meds",
+  "drugs",
+  "online medicine store",
+  "wellness products",
+  "health supplements",
+  "peptide information",
+  "medicine guides",
+  "drug safety",
+  "health blog",
   "crypto checkout",
 ];
 
@@ -34,7 +35,7 @@ export function seoDescription(text?: string | null, fallback = defaultDescripti
 export function productSeoDescription(product: { name: string; description?: string | null; category?: { name: string } | null }) {
   return seoDescription(
     product.description,
-    `Buy ${product.name} from ShopStore. Find reliable ${product.category?.name ?? "automotive"} parts, fitment-focused product details, and quality components for your vehicle.`,
+    `Buy ${product.name} from feel peptides. Find reliable ${product.category?.name ?? "health"} products, medicine-focused details, wellness information, and trusted support.`,
   );
 }
 

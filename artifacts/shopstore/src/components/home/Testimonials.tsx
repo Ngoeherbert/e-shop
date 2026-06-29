@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 
 const testimonials = [
-  { id: 1, name: "Sarah Johnson", handle: "@sarahjohnson", avatar: "https://randomuser.me/api/portraits/women/32.jpg", text: "Found brake pads and filters for my sedan in minutes. Fitment notes were clear and delivery was fast!" },
-  { id: 2, name: "Mike Chen", handle: "@mikechen", avatar: "https://randomuser.me/api/portraits/men/45.jpg", text: "Great selection for my pickup. The replacement sensors arrived quickly and worked perfectly." },
-  { id: 3, name: "Emma Wilson", handle: "@emmawilson", avatar: "https://randomuser.me/api/portraits/women/67.jpg", text: "I compared SUV suspension parts by category and found exactly what my mechanic requested." },
-  { id: 4, name: "David Park", handle: "@davidpark", avatar: "https://randomuser.me/api/portraits/men/23.jpg", text: "The classic car parts section helped me source hard-to-find ignition components without hassle." },
+  { id: 1, name: "Sarah Johnson", handle: "@sarahjohnson", avatar: "https://randomuser.me/api/portraits/women/32.jpg", text: "The medicine guides made it easier to compare health products and know what questions to ask my clinician." },
+  { id: 2, name: "Mike Chen", handle: "@mikechen", avatar: "https://randomuser.me/api/portraits/men/45.jpg", text: "I found peptide storage supplies quickly, and the product details were clear and practical." },
+  { id: 3, name: "Emma Wilson", handle: "@emmawilson", avatar: "https://randomuser.me/api/portraits/women/67.jpg", text: "The meds and health categories are simple to browse, with helpful support through checkout." },
+  { id: 4, name: "David Park", handle: "@davidpark", avatar: "https://randomuser.me/api/portraits/men/23.jpg", text: "The drug safety checklist helped me organize information before talking with my healthcare provider." },
 ];
 
 export function Testimonials() {
@@ -21,7 +21,7 @@ export function Testimonials() {
           viewport={{ once: true }}
         >
           <p className="text-gray-500 max-w-xl mx-auto">
-            Find reliable parts for sedans, SUVs, trucks, performance builds, EVs, and classic restorations.
+            Trusted by shoppers looking for peptides, medicines, wellness support, and health-related education.
           </p>
         </motion.div>
 

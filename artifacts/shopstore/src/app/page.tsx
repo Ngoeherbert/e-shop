@@ -11,19 +11,19 @@ import { BlogSection } from "@/components/home/BlogSection";
 import { db } from "@/lib/db";
 import { products, categories, siteSettings } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Quality Automotive Parts, Accessories & Deals",
-  description: "ShopStore helps drivers find quality automotive spare parts, featured deals, helpful buying guides, WhatsApp support, and crypto checkout through NOWPayments.",
+  title: "Peptides, Medicines & Health Deals",
+  description: "feel peptides helps shoppers find peptides, medicines, meds, health products, educational guides, WhatsApp support, and crypto checkout through NOWPayments.",
   path: "/",
   image: "/opengraph.jpg",
 });
-const homeCategorySlugs = ["sedan-parts", "suv-parts", "truck-parts", "performance-parts", "ev-hybrid-parts"];
+const homeCategorySlugs = ["peptides", "medicines", "health-support", "supplements", "wellness-tools"];
 
 export default async function HomePage() {
-  await ensureStoreSeedData();
   const [featuredProducts, allCategories, settings] = await Promise.all([
     db.query.products.findMany({
       where: eq(products.featured, true),

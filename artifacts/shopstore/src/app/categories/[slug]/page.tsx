@@ -8,7 +8,6 @@ import { StoreBreadcrumb } from "@/components/ui/StoreBreadcrumb";
 import { db } from "@/lib/db";
 import { categories, products } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { ensureStoreSeedData } from "@/lib/db/seed";
 import { JsonLd, absoluteUrl, buildMetadata, seoDescription } from "@/lib/seo";
 
 interface Props {
@@ -21,20 +20,21 @@ const categoryFaqs = (name: string) => [
 ];
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  await ensureStoreSeedData();
   const { slug } = await params;
   const category = await db.query.categories.findFirst({ where: eq(categories.slug, slug) }).catch(() => null);
   if (!category) return buildMetadata({ title: "Category Not Found", path: `/categories/${slug}` });
   return buildMetadata({
-    title: `${category.name} Parts`,
-    description: seoDescription(category.description, `Shop ${category.name.toLowerCase()} at ShopStore, including replacement, maintenance, performance, and accessory parts selected for fitment and reliability.`),
+    title: `${category.name} Products`,
+    description: seoDescription(category.description, `Shop ${category.name.toLowerCase()} at feel peptides, including peptides, medicines, meds, drugs, wellness products, and health support resources.`),
     path: `/categories/${category.slug}`,
     image: category.bannerImage ?? category.image,
   });
 }
 
+
+export const dynamic = "force-dynamic";
+
 export default async function CategoryPage({ params }: Props) {
-  await ensureStoreSeedData();
   const { slug } = await params;
 
   const category = await db.query.categories.findFirst({
@@ -75,7 +75,7 @@ export default async function CategoryPage({ params }: Props) {
         {categoryHeroImage && (
           <Image
             src={categoryHeroImage}
-            alt={`${category.name} automotive parts category`}
+            alt={`${category.name} health products category`}
             fill
             priority
             sizes="100vw"
