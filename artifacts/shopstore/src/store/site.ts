@@ -6,6 +6,7 @@ interface SiteSettings {
   siteTagline: string;
   siteDescription: string;
   logoUrl: string | null;
+  faviconUrl: string | null;
   primaryColor: string;
   secondaryColor: string;
   defaultTheme: "light" | "dark";
@@ -33,6 +34,7 @@ const defaultSettings: SiteSettings = {
   siteTagline: "Peptides, meds, and health essentials.",
   siteDescription: "Explore peptides, medicines, wellness products, drug information, med guides, and health-focused support in one trusted shop.",
   logoUrl: null,
+  faviconUrl: null,
   primaryColor: "#2563eb",
   secondaryColor: "#111827",
   defaultTheme: "light",

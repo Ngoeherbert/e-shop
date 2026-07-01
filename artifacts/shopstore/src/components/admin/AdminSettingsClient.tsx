@@ -28,6 +28,7 @@ interface Props {
     whatsappNumber?: string | null;
     nowPaymentsUrl?: string | null;
     logoUrl?: string | null;
+    faviconUrl?: string | null;
     heroHeadline?: string | null;
     heroSubtitle?: string | null;
     heroImage?: string | null;
@@ -63,24 +64,39 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
     heroHeadline: serverSettings?.heroHeadline ?? settings.heroHeadline,
     heroSubtitle: serverSettings?.heroSubtitle ?? settings.heroSubtitle,
     logoUrl: serverSettings?.logoUrl ?? settings.logoUrl ?? "",
+    faviconUrl: serverSettings?.faviconUrl ?? settings.faviconUrl ?? "",
     siteTagline: serverSettings?.siteTagline ?? settings.siteTagline,
     siteDescription:
       serverSettings?.siteDescription ?? settings.siteDescription,
   });
   const [saving, setSaving] = useState(false);
 
-  const onDrop = useCallback((accepted: File[]) => {
-    const file = accepted[0];
-    if (!file) return;
+  const readImageFile = useCallback((file: File, field: "logoUrl" | "faviconUrl") => {
     const reader = new FileReader();
     reader.onload = (e) => {
-      setForm((f) => ({ ...f, logoUrl: e.target?.result as string }));
+      setForm((f) => ({ ...f, [field]: e.target?.result as string }));
     };
     reader.readAsDataURL(file);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
+  const onLogoDrop = useCallback((accepted: File[]) => {
+    const file = accepted[0];
+    if (file) readImageFile(file, "logoUrl");
+  }, [readImageFile]);
+
+  const onIconDrop = useCallback((accepted: File[]) => {
+    const file = accepted[0];
+    if (file) readImageFile(file, "faviconUrl");
+  }, [readImageFile]);
+
+  const logoDropzone = useDropzone({
+    onDrop: onLogoDrop,
+    accept: { "image/*": [] },
+    multiple: false,
+  });
+
+  const iconDropzone = useDropzone({
+    onDrop: onIconDrop,
     accept: { "image/*": [] },
     multiple: false,
   });
@@ -102,6 +118,7 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
       secondaryColor: form.secondaryColor,
       defaultTheme: form.defaultTheme,
       logoUrl: form.logoUrl || null,
+      faviconUrl: form.faviconUrl || null,
     });
     setSaving(false);
     toast.success("Settings saved!");
@@ -163,27 +180,33 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none resize-none"
             />
           </Field>
-          <Field label="Logo">
-            <div
-              {...getRootProps()}
-              className={`border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-colors ${isDragActive ? "border-red-400 bg-red-50" : "border-gray-200 hover:border-gray-300"}`}
-            >
-              <input {...getInputProps()} />
-              {form.logoUrl ? (
-                <img
-                  src={form.logoUrl}
-                  alt="Logo"
-                  className="h-12 mx-auto object-contain"
-                />
-              ) : (
-                <>
-                  <Upload size={20} className="mx-auto text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500">
-                    Drop logo here or click to upload
-                  </p>
-                </>
-              )}
-            </div>
+          <Field label="Website Name Display">
+            <p className="mb-2 text-xs text-gray-500">
+              Keep using the store name text above, or upload a wordmark/logo image to show instead of the text.
+            </p>
+            <ImageDropzone
+              rootProps={logoDropzone.getRootProps()}
+              inputProps={logoDropzone.getInputProps()}
+              isDragActive={logoDropzone.isDragActive}
+              imageUrl={form.logoUrl}
+              alt="Website name logo"
+              emptyText="Drop website name logo here or click to upload"
+              imageClassName="h-12 mx-auto object-contain"
+            />
+          </Field>
+          <Field label="Site Icon">
+            <p className="mb-2 text-xs text-gray-500">
+              Upload the compact logo icon that appears beside the website name.
+            </p>
+            <ImageDropzone
+              rootProps={iconDropzone.getRootProps()}
+              inputProps={iconDropzone.getInputProps()}
+              isDragActive={iconDropzone.isDragActive}
+              imageUrl={form.faviconUrl}
+              alt="Site icon"
+              emptyText="Drop site icon here or click to upload"
+              imageClassName="h-12 w-12 mx-auto rounded-lg object-contain"
+            />
           </Field>
         </Section>
 
@@ -321,35 +344,41 @@ export function AdminSettingsClient({ settings: serverSettings }: Props) {
   );
 }
 
-// Local fallback toggle (renamed to avoid conflict with imported ToggleSwitch)
-function LocalToggleSwitch({
-  checked,
-  label,
-  onChange,
+function ImageDropzone({
+  rootProps,
+  inputProps,
+  isDragActive,
+  imageUrl,
+  alt,
+  emptyText,
+  imageClassName,
 }: {
-  checked: boolean;
-  label: string;
-  onChange: (checked: boolean) => void;
+  rootProps: React.HTMLAttributes<HTMLDivElement>;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  isDragActive: boolean;
+  imageUrl: string;
+  alt: string;
+  emptyText: string;
+  imageClassName: string;
 }) {
   return (
-    <div className="mb-4 flex items-center gap-3">
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900/20 dark:focus:ring-white/30 ${checked ? "border-gray-900 bg-gray-900 dark:border-gray-100 dark:bg-gray-100" : "border-gray-300 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"}`}
-      >
-        <span
-          className={`inline-block h-5 w-5 rounded-full bg-white shadow transition-transform dark:bg-gray-950 ${checked ? "translate-x-6" : "translate-x-1"}`}
+    <div
+      {...rootProps}
+      className={`border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-colors ${isDragActive ? "border-red-400 bg-red-50" : "border-gray-200 hover:border-gray-300"}`}
+    >
+      <input {...inputProps} />
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={alt}
+          className={imageClassName}
         />
-      </button>
-      <span className="text-sm font-medium text-gray-700">{label}</span>
-      <span
-        className={`rounded-full px-2 py-0.5 text-xs font-semibold ${checked ? "bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300" : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"}`}
-      >
-        {checked ? "On" : "Off"}
-      </span>
+      ) : (
+        <>
+          <Upload size={20} className="mx-auto text-gray-400 mb-2" />
+          <p className="text-sm text-gray-500">{emptyText}</p>
+        </>
+      )}
     </div>
   );
 }
