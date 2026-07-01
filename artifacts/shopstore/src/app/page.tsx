@@ -21,7 +21,6 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
   image: "/opengraph.jpg",
 });
-const homeCategorySlugs = ["peptides", "medicines", "health-support", "supplements", "wellness-tools"];
 
 export default async function HomePage() {
   const [featuredProducts, allCategories, settings] = await Promise.all([
@@ -31,18 +30,16 @@ export default async function HomePage() {
       limit: 8,
       orderBy: [desc(products.createdAt)],
     }).catch(() => []),
-    db.query.categories.findMany().catch(() => []),
+    db.query.categories.findMany({
+      orderBy: [desc(categories.createdAt)],
+    }).catch(() => []),
     db.query.siteSettings.findFirst().then((value) => value ?? null).catch(() => null),
   ]);
-
-  const homeCategories = homeCategorySlugs
-    .map((slug) => allCategories.find((category) => category.slug === slug))
-    .filter((category): category is NonNullable<typeof category> => Boolean(category));
 
   return (
     <StoreLayout>
       <Hero settings={settings} />
-      <CategoryGrid categories={homeCategories} limit={5} />
+      <CategoryGrid categories={allCategories} limit={5} />
       <FeaturedProducts products={featuredProducts} />
       <WhyShopWithUs />
       <Testimonials />
