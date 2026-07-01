@@ -10,7 +10,7 @@ import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { BlogSection } from "@/components/home/BlogSection";
 import { db } from "@/lib/db";
 import { products, categories, siteSettings } from "@/lib/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 
 
 export const dynamic = "force-dynamic";
@@ -23,9 +23,8 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function HomePage() {
-  const [featuredProducts, allCategories, settings] = await Promise.all([
+  const [homeProducts, allCategories, settings] = await Promise.all([
     db.query.products.findMany({
-      where: eq(products.featured, true),
       with: { category: true },
       limit: 8,
       orderBy: [desc(products.createdAt)],
@@ -40,7 +39,7 @@ export default async function HomePage() {
     <StoreLayout>
       <Hero settings={settings} />
       <CategoryGrid categories={allCategories} limit={5} />
-      <FeaturedProducts products={featuredProducts} />
+      <FeaturedProducts products={homeProducts} />
       <WhyShopWithUs />
       <Testimonials />
       <BlogSection />
