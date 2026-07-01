@@ -86,8 +86,8 @@ export function Navbar({ categories = [] }: { categories?: NavCategory[] }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
             <Link href="/" className="flex items-center gap-2 shrink-0" aria-label={settings.siteName}>
-              {settings.logoUrl ? (
-                <img src={settings.logoUrl} alt={settings.siteName} className="h-9 w-9 sm:w-auto rounded-lg object-contain" />
+              {settings.faviconUrl ? (
+                <img src={settings.faviconUrl} alt="" className="h-9 w-9 rounded-lg object-contain" />
               ) : (
                 <div
                   className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-sm"
@@ -96,9 +96,13 @@ export function Navbar({ categories = [] }: { categories?: NavCategory[] }) {
                   {settings.siteName.slice(0, 2).toLowerCase()}
                 </div>
               )}
-              <span className="hidden sm:inline font-semibold text-lg text-gray-900">
-                {settings.siteName}
-              </span>
+              {settings.logoUrl ? (
+                <img src={settings.logoUrl} alt={settings.siteName} className="hidden h-9 w-auto sm:block object-contain" />
+              ) : (
+                <span className="hidden sm:inline font-semibold text-lg text-gray-900">
+                  {settings.siteName}
+                </span>
+              )}
             </Link>
 
             <div className="hidden md:flex items-center gap-7">
