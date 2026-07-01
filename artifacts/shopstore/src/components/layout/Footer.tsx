@@ -13,20 +13,22 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              {settings.logoUrl ? (
-                <img src={settings.logoUrl} alt={settings.siteName} className="h-9 w-auto" />
+              {settings.faviconUrl ? (
+                <img src={settings.faviconUrl} alt="" className="h-9 w-9 rounded-lg object-contain" />
               ) : (
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-                    style={{ backgroundColor: settings.primaryColor }}
-                  >
-                    {settings.siteName.slice(0, 2).toLowerCase()}
-                  </div>
-                  <span className="font-semibold text-lg text-white">
-                    {settings.siteName.split(" ")[0].toLowerCase()}
-                  </span>
+                <div
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+                  style={{ backgroundColor: settings.primaryColor }}
+                >
+                  {settings.siteName.slice(0, 2).toLowerCase()}
                 </div>
+              )}
+              {settings.logoUrl ? (
+                <img src={settings.logoUrl} alt={settings.siteName} className="h-9 w-auto object-contain" />
+              ) : (
+                <span className="font-semibold text-lg text-white">
+                  {settings.siteName.split(" ")[0].toLowerCase()}
+                </span>
               )}
             </Link>
             <p className="text-sm leading-relaxed">{settings.siteDescription}</p>

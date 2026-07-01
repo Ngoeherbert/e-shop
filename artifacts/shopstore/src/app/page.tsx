@@ -10,7 +10,7 @@ import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { BlogSection } from "@/components/home/BlogSection";
 import { db } from "@/lib/db";
 import { products, categories, siteSettings } from "@/lib/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 
 
 export const dynamic = "force-dynamic";
@@ -21,29 +21,25 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
   image: "/opengraph.jpg",
 });
-const homeCategorySlugs = ["peptides", "medicines", "health-support", "supplements", "wellness-tools"];
 
 export default async function HomePage() {
-  const [featuredProducts, allCategories, settings] = await Promise.all([
+  const [homeProducts, allCategories, settings] = await Promise.all([
     db.query.products.findMany({
-      where: eq(products.featured, true),
       with: { category: true },
       limit: 8,
       orderBy: [desc(products.createdAt)],
     }).catch(() => []),
-    db.query.categories.findMany().catch(() => []),
+    db.query.categories.findMany({
+      orderBy: [desc(categories.createdAt)],
+    }).catch(() => []),
     db.query.siteSettings.findFirst().then((value) => value ?? null).catch(() => null),
   ]);
-
-  const homeCategories = homeCategorySlugs
-    .map((slug) => allCategories.find((category) => category.slug === slug))
-    .filter((category): category is NonNullable<typeof category> => Boolean(category));
 
   return (
     <StoreLayout>
       <Hero settings={settings} />
-      <CategoryGrid categories={homeCategories} limit={5} />
-      <FeaturedProducts products={featuredProducts} />
+      <CategoryGrid categories={allCategories} limit={5} />
+      <FeaturedProducts products={homeProducts} />
       <WhyShopWithUs />
       <Testimonials />
       <BlogSection />
